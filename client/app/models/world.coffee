@@ -7,21 +7,18 @@ catch err
 
 
 class World
-	constructor: ({@height, @width, @users}) ->
-		@avatars = {}
-		@users ?= []
+	constructor: ({@height, @width, @avatars}) ->
+		@avatars ?= []
 		console.log "new World"
 		@avatarAdded = new Signal()
 
-		@addAvatar userId for userId in @users
+		console.log @
 
 	addUser: (userId) =>
 		@addAvatar new Avatar {userId}
-		@users.push userId
 
 	removeUser: (userId) =>
 		@removeAvatar userId
-		@users.splice(@users.indexOf(userId), 1)
 
 	addAvatar: (avatar) =>
 		@avatars[avatar.userId] = avatar
