@@ -1,7 +1,8 @@
 (function() {
-  var app, coffee, directoryExists, express, fs, http, nib, nko, package, path, stitch, stylus;
+  var app, coffee, directoryExists, express, fs, http, nib, nko, package, path, stitch, stylus, _;
   http = require('http');
   nko = require('nko')('ahE2gHoOKLxdrUI0');
+  _ = require('underscore');
   stitch = require('stitch');
   coffee = require('coffee-script');
   express = require('express');

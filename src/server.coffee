@@ -1,6 +1,8 @@
 http = require('http')
 nko = require('nko')('ahE2gHoOKLxdrUI0')
 
+_ = require 'underscore'
+
 # allows us to write client-side commonjs modules
 stitch = require('stitch')
 
