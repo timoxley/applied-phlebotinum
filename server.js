@@ -1,5 +1,5 @@
 (function() {
-  var app, appDir, coffee, common, directoryExists, express, fs, http, nib, nko, package, path, stitch, stylus, winston;
+  var app, appDir, coffee, common, directoryExists, engine, express, fs, http, nib, nko, now, package, path, stitch, stylus, winston;
   http = require('http');
   nko = require('nko')('ahE2gHoOKLxdrUI0');
   coffee = require('coffee-script');
@@ -12,6 +12,7 @@
   path = require('path');
   stylus = require('stylus');
   nib = require('nib');
+  now = require('now');
   directoryExists = function(dir) {
     try {
       fs.statSync(dir);
@@ -59,14 +60,13 @@
       };
       return res.render('index', options);
     });
-    app.get('/test', function(req, res) {
-      var options;
-      options = {};
-      return res.send("" + appDir + "/client/app");
-    });
+    common.everyone = now.initialize(app);
+    app.get('/game/new', function(req, res) {});
     app.use(express.logger());
     return app.use(express.static("" + appDir + "/public"));
   });
+  engine = require('./app/engine');
+  engine.newGame();
   app.listen(parseInt(process.env.PORT) || 7777);
   winston.info('Listening on ' + app.address().port);
 }).call(this);

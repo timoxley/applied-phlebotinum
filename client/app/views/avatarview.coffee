@@ -1,8 +1,6 @@
 class AvatarView
 	constructor: (@avatar, @canvas) ->
 		console.log "new avatar view"
-		@avatar.on 'avatar.change', =>
-			@render()
 	render: =>
 		if not @displayElement?
 			@displayElement = @canvas.display.rectangle

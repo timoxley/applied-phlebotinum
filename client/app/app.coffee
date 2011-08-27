@@ -6,11 +6,6 @@ settings = require 'settings'
 
 module.exports = 
 	init: ->
-		console.log settings
-		@world = new World settings.world.width, settings.world.height
+		@world = now.world
+		#@avatarController = new AvatarController(test1, @worldView.canvas) 
 		@worldView = new WorldView(@world, '#world')
-		
-		test1 = @world.addAvatar new Avatar('test 1')
-		@world.addAvatar new Avatar('test 2')
-		@world.addAvatar new Avatar('test 3')
-		@avatarController = new AvatarController(test1, @worldView.canvas)

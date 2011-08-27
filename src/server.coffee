@@ -20,6 +20,8 @@ path = require('path')
 stylus = require('stylus')
 nib = require('nib')
 
+now = require 'now'
+
 # utility helper. If dir exists return true
 directoryExists = (dir) ->
 	try
@@ -30,7 +32,7 @@ directoryExists = (dir) ->
 
 # Stitch configuration
 package = stitch.createPackage
-	paths: ["#{appDir}/client/app","#{appDir}/client/app/", path.resolve(require.resolve('eventemitter2'), '..')]
+	paths: ["#{appDir}/client/app", "#{appDir}/client/app/", path.resolve(require.resolve('eventemitter2'), '..')]
 
 package.compile (err, source) ->
 	destDir = "#{appDir}/public/scripts/"
@@ -70,12 +72,18 @@ app.configure ->
 			project: "Applied Phlebotinum"
 			page_title: "Home"
 		res.render 'index', options
-	app.get '/test', (req, res) ->
-		options = {}
-		res.send "#{appDir}/client/app"
-
+	
+	common.everyone = now.initialize app
+	
+	
+	app.get '/game/new', (req, res) ->
+		
+	
 	app.use express.logger()
 	app.use express.static "#{appDir}/public"
+
+engine = require './app/engine'
+engine.newGame()
 
 app.listen parseInt(process.env.PORT) || 7777
 winston.info 'Listening on ' + app.address().port
