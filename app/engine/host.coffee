@@ -9,8 +9,13 @@ World = require("#{appDir}/client/app/models/world").World
 class Host
 	constructor: (@id) ->
 		@group = now.getGroup @id
-		@world = new World settings.world.width, settings.world.height
-
+		@world = new World settings.world
+	addUser: (@userId) ->
+		@group.addUser userId
+		@world.avatars.push userId
+	removeUser: (@userId) ->
+		@group.removeUser userId
+		@world.avatars.splice(@world.avatars.indexOf(userId), 1)
 module.exports =
 	Host: Host
 

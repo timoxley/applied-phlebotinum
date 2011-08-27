@@ -9,6 +9,7 @@ class WorldView
 		@canvas = oCanvas.create
 			canvas: @el
 		@canvas.width = @world.width
+		
 		@canvas.height = @world.height
 		console.log @world.avatarAdded
 		@world.avatarAdded.add (avatar) =>

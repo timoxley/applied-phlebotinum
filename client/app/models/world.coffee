@@ -1,5 +1,4 @@
 
-
 try
 	Signal = require("../../../lib/signals").Signal
 catch err
@@ -7,17 +6,19 @@ catch err
 
 
 class World
-	constructor: (@height, @width) ->
+	constructor: ({@height, @width, @avatars}) ->
+		console.log @avatars
+		@avatars ?= []
 		console.log "new World"
-		
-		
-		@avatars = []
 		@avatarAdded = new Signal()
-		console.log @avatarAdded.add
+		
 	addAvatar: (avatar) =>
 		@avatars.push avatar
 		@avatarAdded.dispatch avatar
 		avatar
-		
+	removeAvatar: (avatar) =>
+		@avatars.push avatar
+		@avatarAdded.dispatch avatar
+		avatar
 module.exports =
 	World: World

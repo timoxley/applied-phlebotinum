@@ -35,7 +35,7 @@ package = stitch.createPackage
 	paths: [
 		"#{appDir}/client/app"
 		"#{appDir}/client/app/"
-		"#{appDir}/lib"
+		"#{appDir}/lib/"
 	]
 
 package.compile (err, source) ->
