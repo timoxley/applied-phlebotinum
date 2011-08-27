@@ -10,12 +10,15 @@ class Host
 	constructor: (@id) ->
 		@group = now.getGroup @id
 		@world = new World settings.world
+		
 	addUser: (@userId) ->
 		@group.addUser userId
-		@world.avatars.push userId
+		@world.addUser userId
+
 	removeUser: (@userId) ->
 		@group.removeUser userId
-		@world.avatars.splice(@world.avatars.indexOf(userId), 1)
+		@world.removeUser userId
+
 module.exports =
 	Host: Host
 
