@@ -18,7 +18,6 @@ build = (next) ->
 	coffee.on 'exit', (code) ->
 		console.log 'build complete'
 		if code is 0
-			console.log(next)
 			next?()
 
 task 'build', 'build the application', ->
@@ -46,5 +45,4 @@ task 'run', 'run the application locally', ->
 		nodemon.stdout.on 'data', (data) ->
 			console.log data
 		nodemon.stderr.on 'data', (data) ->
-			console.log 'error: '
 			console.log data
