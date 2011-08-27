@@ -16,6 +16,7 @@ path = require('path')
 stylus = require('stylus')
 nib = require('nib')
 
+appDir = path.normalize "#{__dirname}/.."
 
 # utility helper. If dir exists return true
 directoryExists = (dir) ->
@@ -27,15 +28,15 @@ directoryExists = (dir) ->
 
 # Stitch configuration
 package = stitch.createPackage
-	paths: ["#{__dirname}/client/app","#{__dirname}/client/app/", path.resolve(require.resolve('eventemitter2'), '..')]
+	paths: ["#{appDir}/client/app","#{appDir}/client/app/", path.resolve(require.resolve('eventemitter2'), '..')]
 
 package.compile (err, source) ->
-	destDir = "#{__dirname}/public/scripts/"
+	destDir = "#{appDir}/public/scripts/"
 
 	if !directoryExists destDir
 		fs.mkdirSync destDir, 0775
 
-	fs.writeFile "#{__dirname}/public/scripts/application.js", source, (err) ->
+	fs.writeFile "#{appDir}/public/scripts/application.js", source, (err) ->
 		if (err)
 			throw err
 
@@ -48,8 +49,8 @@ app.configure ->
 	app.use express.bodyParser()
 	app.use express.cookieParser()
 	app.use stylus.middleware
-		src: "#{__dirname}/app/views"
-		dest: "#{__dirname}/public"
+		src: "#{appDir}/app/views"
+		dest: "#{appDir}/public"
 		force: true
 		compile: (str, path) ->
 			return stylus(str)
@@ -58,7 +59,7 @@ app.configure ->
 				.set('warn', true)
 				.use(nib())
 
-	app.set 'views', "#{__dirname}/app/views"
+	app.set 'views', "#{appDir}/app/views"
 	app.set 'view engine', 'jade'
 
 	app.get '/', (req, res) ->
@@ -69,10 +70,10 @@ app.configure ->
 		res.render 'index', options
 	app.get '/test', (req, res) ->
 		options = {}
-		res.send "#{__dirname}/client/app"
+		res.send "#{appDir}/client/app"
 
 	app.use express.logger()
-	app.use express.static "#{__dirname}/public"
+	app.use express.static "#{appDir}/public"
 
 app.listen parseInt(process.env.PORT) || 7777
 console.log 'Listening on ' + app.address().port

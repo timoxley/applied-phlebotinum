@@ -2,19 +2,20 @@ spawn = require('child_process').spawn
 exec = require('child_process').exec
 
 build = (next) ->
-	console.log "building ./src..."
-	coffee = spawn 'coffee', ['-co', '.', './src']
+  next?()
+#	console.log "building ./src..."
+#	coffee = spawn 'coffee', ['-co', '.', './src']
 
-	coffee.stdout.setEncoding 'utf8'
-	coffee.stderr.setEncoding 'utf8'
-	coffee.stdout.on 'data', (data) ->
-		console.log data
-	coffee.stderr.on 'data', (data) ->
-		console.log data
-	coffee.on 'exit', (code) ->
-		console.log 'build complete'
-		if code is 0
-			next?()
+#	coffee.stdout.setEncoding 'utf8'
+#	coffee.stderr.setEncoding 'utf8'
+#	coffee.stdout.on 'data', (data) ->
+#		console.log data
+#	coffee.stderr.on 'data', (data) ->
+#		console.log data
+#	coffee.on 'exit', (code) ->
+#		console.log 'build complete'
+#		if code is 0
+#			next?()
 
 task 'build', 'build the application', ->
 	build()
