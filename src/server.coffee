@@ -1,5 +1,6 @@
 http = require('http')
 nko = require('nko')('ahE2gHoOKLxdrUI0')
+coffee = require('coffee-script')
 
 common = require('./common')
 
@@ -10,8 +11,6 @@ appDir = common.appDir
 
 # allows us to write client-side commonjs modules
 stitch = require('stitch')
-
-coffee = require('coffee-script')
 
 express = require('express')
 fs = require('fs')

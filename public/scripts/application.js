@@ -148,7 +148,6 @@
       this.height = height;
       this.width = width;
       this.addAvatar = __bind(this.addAvatar, this);
-      console.log("World Created");
       this.avatars = [];
     }
     World.prototype.addAvatar = function(avatar) {
