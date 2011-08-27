@@ -4,6 +4,8 @@ nko = require('nko')('ahE2gHoOKLxdrUI0')
 # allows us to write client-side commonjs modules
 stitch = require('stitch')
 
+coffee = require('coffee-script')
+
 express = require('express')
 fs = require('fs')
 path = require('path')
