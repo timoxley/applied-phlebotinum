@@ -1,4 +1,4 @@
-settings:
+settings = 
 	world:
 		width: 600
 		height: 600

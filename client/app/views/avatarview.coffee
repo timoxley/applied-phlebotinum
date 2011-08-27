@@ -16,10 +16,5 @@ class AvatarView
 			@displayElement.x = @avatar.x
 			@displayElement.y = @avatar.y
 			@canvas.draw.redraw()
-		console.log @canvas
-		console.log("rendering avatar: ")
-		console.log(@avatar.name)
-		console.log(@avatar.x)
-		console.log(@avatar.y)
 module.exports =
 	AvatarView: AvatarView
