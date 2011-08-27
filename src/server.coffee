@@ -1,7 +1,12 @@
 http = require('http')
 nko = require('nko')('ahE2gHoOKLxdrUI0')
 
-_ = require 'underscore'
+common = require('./common')
+
+# Winston does logging
+winston = common.winston
+
+appDir = common.appDir
 
 # allows us to write client-side commonjs modules
 stitch = require('stitch')
@@ -15,8 +20,6 @@ path = require('path')
 # view libs
 stylus = require('stylus')
 nib = require('nib')
-
-appDir = path.normalize "#{__dirname}/.."
 
 # utility helper. If dir exists return true
 directoryExists = (dir) ->
@@ -40,7 +43,7 @@ package.compile (err, source) ->
 		if (err)
 			throw err
 
-		console.log 'Compiled application.js'
+		winston.info 'Compiled application.js'
 
 # Express configuration
 app = express.createServer()
@@ -76,4 +79,4 @@ app.configure ->
 	app.use express.static "#{appDir}/public"
 
 app.listen parseInt(process.env.PORT) || 7777
-console.log 'Listening on ' + app.address().port
+winston.info 'Listening on ' + app.address().port

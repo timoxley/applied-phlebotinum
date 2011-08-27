@@ -21,7 +21,8 @@
     "eventemitter2": "~0.4.1",
     "coffee-script": "~1.1.2",
     "underscore" : "~1.1.7",
-    "socket.io" : "~0.7.9"
+    "socket.io" : "~0.7.9",
+    "winston" : "~0.4.0"
   },
   "devDependencies": {}
 }

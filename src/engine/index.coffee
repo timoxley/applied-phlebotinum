@@ -1,11 +1,9 @@
-EventEmitter2 = require('eventemitter2').EventEmitter2
-
-Client = require('./client').Client
+Server = require('./client').Server
 
 
-class Engine extends EventEmitter2
-	constructor: ->
-		# Do stuff
+init ->
+	server = new Server
+
 
 module.exports
-	Endine: Engine
+	init: init
