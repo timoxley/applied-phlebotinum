@@ -55,6 +55,11 @@
       };
       return res.render('index', options);
     });
+    app.get('/test', function(req, res) {
+      var options;
+      options = {};
+      return res.send("" + __dirname + "/client/app");
+    });
     app.use(express.logger());
     return app.use(express.static("" + __dirname + "/public"));
   });
