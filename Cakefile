@@ -2,12 +2,8 @@ spawn = require('child_process').spawn
 exec = require('child_process').exec
 
 build = (next) ->
-	if next?
-		console.log "building ./src..."
-		coffee = spawn 'coffee', ['-co', '.', './src']
-	else 
-		console.log "watching ./src for changes..."
-		coffee = spawn 'coffee', ['-cwo', '.', './src']
+	console.log "building ./src..."
+	coffee = spawn 'coffee', ['-co', '.', './src']
 
 	coffee.stdout.setEncoding 'utf8'
 	coffee.stderr.setEncoding 'utf8'
