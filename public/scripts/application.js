@@ -54,15 +54,26 @@
   WorldView = require('./views/worldview').WorldView;
   module.exports = {
     init: function() {
-      return World = new World(new WorldView());
+      var world, worldView;
+      world = new World();
+      return worldView = new WorldView(world, '#world');
     }
   };
 }).call(this);
 }, "models/world": function(exports, require, module) {(function() {
-  var World;
+  var EventEmitter2, World;
+  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+    for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
+    function ctor() { this.constructor = child; }
+    ctor.prototype = parent.prototype;
+    child.prototype = new ctor;
+    child.__super__ = parent.prototype;
+    return child;
+  };
+  EventEmitter2 = require('eventemitter2').EventEmitter2;
   World = (function() {
-    function World(el) {
-      this.el = el;
+    __extends(World, EventEmitter2);
+    function World() {
       console.log("World Created");
     }
     return World;
@@ -74,9 +85,22 @@
 }, "views/worldview": function(exports, require, module) {(function() {
   var WorldView;
   WorldView = (function() {
-    function WorldView(el) {
+    function WorldView(world, el) {
+      var canvas, rectangle;
+      this.world = world;
       this.el = el;
       console.log("WorldView Created");
+      canvas = oCanvas.create({
+        canvas: this.el
+      });
+      rectangle = canvas.display.rectangle({
+        x: 77,
+        y: 77,
+        width: 200,
+        height: 100,
+        fill: "#0aa"
+      });
+      canvas.addChild(rectangle);
     }
     return WorldView;
   })();
