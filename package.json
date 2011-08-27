@@ -6,12 +6,18 @@
   "repository": {
     "url": ""
   },
-  "main": "./lib/server.js",
+  "main": "./server.js",
   "engines": {
     "node": "~v0.4.11"
   },
   "dependencies": {
-    "nko": "~0.1.0"
+    "nko": "~0.1.0",
+    "uglify-js": "~1.0.7",
+    "stitch": "~0.3.2",
+    "express": "~2.4.6",
+    "nib": "~0.2.0",
+    "jade": "~0.15.2",
+    "stylus": "~0.15.1"
   },
   "devDependencies": {}
 }
