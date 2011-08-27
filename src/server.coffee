@@ -2,7 +2,7 @@ http = require('http')
 nko = require('nko')('ahE2gHoOKLxdrUI0')
 coffee = require('coffee-script')
 
-common = require('./common')
+common = require('./app/common')
 
 # Winston does logging
 winston = common.winston

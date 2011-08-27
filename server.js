@@ -3,7 +3,7 @@
   http = require('http');
   nko = require('nko')('ahE2gHoOKLxdrUI0');
   coffee = require('coffee-script');
-  common = require('./common');
+  common = require('./app/common');
   winston = common.winston;
   appDir = common.appDir;
   stitch = require('stitch');
