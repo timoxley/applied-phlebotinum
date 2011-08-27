@@ -23,7 +23,7 @@ directoryExists = (dir) ->
 
 # Stitch configuration
 package = stitch.createPackage
-	paths: ["#{__dirname}/client/app/", path.resolve(require.resolve('eventemitter2'), '..')]
+	paths: ["#{__dirname}/client/app","#{__dirname}/client/app/", path.resolve(require.resolve('eventemitter2'), '..')]
 
 package.compile (err, source) ->
 	destDir = "#{__dirname}/public/scripts/"
@@ -39,6 +39,7 @@ package.compile (err, source) ->
 
 # Express configuration
 app = express.createServer()
+
 app.configure ->
 	app.use express.bodyParser()
 	app.use express.cookieParser()
@@ -62,6 +63,9 @@ app.configure ->
 			project: "Applied Phlebotinum"
 			page_title: "Home"
 		res.render 'index', options
+	app.get '/test', (req, res) ->
+		options = {}
+		res.send "#{__dirname}/client/app"
 
 	app.use express.logger()
 	app.use express.static "#{__dirname}/public"

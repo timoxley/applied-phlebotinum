@@ -17,7 +17,7 @@
     }
   };
   package = stitch.createPackage({
-    paths: ["" + __dirname + "/client/app/", path.resolve(require.resolve('eventemitter2'), '..')]
+    paths: ["" + __dirname + "/client/app", "" + __dirname + "/client/app/", path.resolve(require.resolve('eventemitter2'), '..')]
   });
   package.compile(function(err, source) {
     var destDir;
