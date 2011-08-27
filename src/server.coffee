@@ -20,8 +20,6 @@ path = require('path')
 stylus = require('stylus')
 nib = require('nib')
 
-now = require 'now'
-
 # utility helper. If dir exists return true
 directoryExists = (dir) ->
 	try
@@ -72,18 +70,44 @@ app.configure ->
 			project: "Applied Phlebotinum"
 			page_title: "Home"
 		res.render 'index', options
-	
-	common.everyone = now.initialize app
-	
-	
+
 	app.get '/game/new', (req, res) ->
 		
 	
 	app.use express.logger()
 	app.use express.static "#{appDir}/public"
 
+
+
+
+
+
+
+
+
+
+#common.now = now
+
 engine = require './app/engine'
 engine.newGame()
 
 app.listen parseInt(process.env.PORT) || 7777
 winston.info 'Listening on ' + app.address().port
+
+now = require 'now'
+
+everyone = now.initialize app
+everyone.now.getWorld = ->
+	@now.world = 5
+	@now.receiveWorld()
+
+now.on 'connect', ->
+	#availableHosts = host for host in hosts when host.notFull()
+	# host = availableHosts[Math.floor(Math.random(availableHosts.length))] unless availableHosts.length == 0
+	winston.info 'connected: '+@user.clientId
+#	host = hosts[0]
+#	host.group.addUser @user.clientId
+#	@user.world = host.world
+
+now.on 'disconnect', ->
+	console.log "Left : " + @now

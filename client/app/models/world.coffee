@@ -7,5 +7,6 @@ class World extends EventEmitter2
 		@avatars.push avatar
 		@emit 'avatar.added', avatar
 		avatar
+		
 module.exports =
 	World: World

@@ -1,26 +1,17 @@
-EventEmitter2 = require('eventemitter2').EventEmitter2
-
-
 common = require '../common'
+#now = common.now
+settings = common.settings
 appDir = common.appDir
 
-World = require("#{appDir}/client/models/world").World
+World = require("#{appDir}/client/app/models/world").World
 
-now = require 'now'
+#everyone = common.everyone
 
-everyone = common.everyone
-
-class Host extends EventEmitter2
-	
+class Host
 	constructor: (@id) ->
-		@world = new World settings.world.width, settings.world.height
-
-		# @world.addAvatar new Avatar('test 2')
-		# @world.addAvatar new Avatar('test 3')
-		save()
-	save: =>
-		now.getGroup
-
+#    @group = now.getGroup @id
+#    @world = new World settings.world.width, settings.world.height
 
 module.exports =
 	Host: Host
+
