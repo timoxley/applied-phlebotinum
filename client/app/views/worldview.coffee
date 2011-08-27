@@ -1,17 +1,22 @@
+AvatarView = require('./avatarview').AvatarView
 class WorldView
 	constructor: (@world, @el) ->
-		console.log "WorldView Created"
-		canvas = oCanvas.create
+		console.log "WorldView Created for world:"
+		console.log @world
+		@avatarViews = []
+		@canvas = oCanvas.create
 			canvas: @el
 		
-		rectangle = canvas.display.rectangle
-			x: 77,
-			y: 77,
-			width: 200,
-			height: 100,
-			fill: "#0aa"
 		
-		canvas.addChild rectangle
+		
+		@world.on 'avatar.added', (avatar) =>
+			@addAvatarView AvatarView.create(avatar, @canvas)
+			
+	addAvatarView: (avatarView) =>
+		@avatarViews.push(avatarView)
+		console.log avatarView
+		@canvas.addChild avatarView
+		
 		
 module.exports =
 	WorldView: WorldView

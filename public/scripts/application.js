@@ -49,20 +49,47 @@
   }
   return this.require.define;
 }).call(this)({"app": function(exports, require, module) {(function() {
-  var World, WorldView;
+  var Avatar, World, WorldView;
   World = require('./models/world').World;
   WorldView = require('./views/worldview').WorldView;
+  Avatar = require('./models/avatar').Avatar;
   module.exports = {
     init: function() {
-      var world, worldView;
-      world = new World();
-      return worldView = new WorldView(world, '#world');
+      this.world = new World();
+      console.log(this.world);
+      this.worldView = new WorldView(this.world, '#world');
+      this.world.addAvatar(new Avatar('test 1'));
+      this.world.addAvatar(new Avatar('test 2'));
+      return this.world.addAvatar(new Avatar('test 3'));
     }
+  };
+}).call(this);
+}, "models/avatar": function(exports, require, module) {(function() {
+  var Avatar, EventEmitter2;
+  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+    for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
+    function ctor() { this.constructor = child; }
+    ctor.prototype = parent.prototype;
+    child.prototype = new ctor;
+    child.__super__ = parent.prototype;
+    return child;
+  };
+  EventEmitter2 = require('eventemitter2').EventEmitter2;
+  Avatar = (function() {
+    __extends(Avatar, EventEmitter2);
+    function Avatar(name) {
+      this.name = name;
+      console.log("Avatar Created: " + name);
+    }
+    return Avatar;
+  })();
+  module.exports = {
+    Avatar: Avatar
   };
 }).call(this);
 }, "models/world": function(exports, require, module) {(function() {
   var EventEmitter2, World;
-  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
     for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
     function ctor() { this.constructor = child; }
     ctor.prototype = parent.prototype;
@@ -74,34 +101,65 @@
   World = (function() {
     __extends(World, EventEmitter2);
     function World() {
-      console.log("World Created");
+      this.addAvatar = __bind(this.addAvatar, this);      console.log("World Created");
+      this.avatars = [];
     }
+    World.prototype.addAvatar = function(avatar) {
+      this.avatars.push(avatar);
+      return this.emit('avatar.added', avatar);
+    };
     return World;
   })();
   module.exports = {
     World: World
   };
 }).call(this);
+}, "views/avatarview": function(exports, require, module) {(function() {
+  var AvatarView;
+  AvatarView = (function() {
+    function AvatarView(avatar) {
+      this.avatar = avatar;
+      console.log("new avatar view");
+    }
+    return AvatarView;
+  })();
+  AvatarView.create = function(avatar, canvas) {
+    return canvas.display.rectangle({
+      x: Math.random() * 200,
+      y: Math.random() * 200,
+      width: 10,
+      height: 10,
+      fill: "#333"
+    });
+  };
+  module.exports = {
+    AvatarView: AvatarView
+  };
+}).call(this);
 }, "views/worldview": function(exports, require, module) {(function() {
-  var WorldView;
+  var AvatarView, WorldView;
+  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+  AvatarView = require('./avatarview').AvatarView;
   WorldView = (function() {
     function WorldView(world, el) {
-      var canvas, rectangle;
       this.world = world;
       this.el = el;
-      console.log("WorldView Created");
-      canvas = oCanvas.create({
+      this.addAvatarView = __bind(this.addAvatarView, this);
+      console.log("WorldView Created for world:");
+      console.log(this.world);
+      this.avatarViews = [];
+      this.canvas = oCanvas.create({
         canvas: this.el
       });
-      rectangle = canvas.display.rectangle({
-        x: 77,
-        y: 77,
-        width: 200,
-        height: 100,
-        fill: "#0aa"
-      });
-      canvas.addChild(rectangle);
+      this.world.on('avatar.added', __bind(function(avatar) {
+        return this.addAvatarView(AvatarView.create(avatar, this.canvas));
+      }, this));
     }
+    WorldView.prototype.addAvatarView = function(avatarView) {
+      this.avatarViews.push(avatarView);
+      console.log(avatarView);
+      return this.canvas.addChild(avatarView);
+    };
     return WorldView;
   })();
   module.exports = {
