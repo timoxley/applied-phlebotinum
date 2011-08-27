@@ -49,24 +49,64 @@
   }
   return this.require.define;
 }).call(this)({"app": function(exports, require, module) {(function() {
-  var Avatar, World, WorldView;
+  var Avatar, AvatarController, Settings, World, WorldView;
   World = require('./models/world').World;
   WorldView = require('./views/worldview').WorldView;
   Avatar = require('./models/avatar').Avatar;
+  AvatarController = require('./controllers/avatarcontroller').AvatarController;
+  Settings = require('settings');
   module.exports = {
     init: function() {
-      this.world = new World();
+      var test1;
       console.log(this.world);
       this.worldView = new WorldView(this.world, '#world');
-      this.world.addAvatar(new Avatar('test 1'));
+      test1 = this.world.addAvatar(new Avatar('test 1'));
       this.world.addAvatar(new Avatar('test 2'));
-      return this.world.addAvatar(new Avatar('test 3'));
+      this.world.addAvatar(new Avatar('test 3'));
+      return this.avatarController = new AvatarController(test1, this.worldView.canvas);
     }
+  };
+}).call(this);
+}, "controllers/avatarcontroller": function(exports, require, module) {(function() {
+  var AvatarController;
+  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+  AvatarController = (function() {
+    function AvatarController(avatar, canvas) {
+      this.avatar = avatar;
+      this.canvas = canvas;
+      console.log('new AvatarController');
+      console.log(this.canvas.keyboard);
+      console.log(this.avatar);
+      this.canvas.keyboard.addEvent('keydown', __bind(function(event) {
+        if (event.keyCode === this.canvas.keyboard.ARROW_UP) {
+          event.preventDefault();
+          this.avatar.y -= 10;
+        }
+        if (event.keyCode === this.canvas.keyboard.ARROW_DOWN) {
+          event.preventDefault();
+          this.avatar.y += 10;
+        }
+        if (event.keyCode === this.canvas.keyboard.ARROW_LEFT) {
+          event.preventDefault();
+          this.avatar.x -= 10;
+        }
+        if (event.keyCode === this.canvas.keyboard.ARROW_RIGHT) {
+          event.preventDefault();
+          this.avatar.x += 10;
+        }
+        console.log(this);
+        return this.avatar.changed();
+      }, this));
+    }
+    return AvatarController;
+  })();
+  module.exports = {
+    AvatarController: AvatarController
   };
 }).call(this);
 }, "models/avatar": function(exports, require, module) {(function() {
   var Avatar, EventEmitter2;
-  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
     for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
     function ctor() { this.constructor = child; }
     ctor.prototype = parent.prototype;
@@ -79,10 +119,14 @@
     __extends(Avatar, EventEmitter2);
     function Avatar(name) {
       this.name = name;
+      this.changed = __bind(this.changed, this);
       console.log("Avatar Created: " + name);
-      this.x = Math.random() * 200;
-      this.y = Math.random() * 200;
+      this.x = Math.floor(Math.random() * 60) * 10;
+      this.y = Math.floor(Math.random() * 60) * 10;
     }
+    Avatar.prototype.changed = function() {
+      return this.emit('avatar.change');
+    };
     return Avatar;
   })();
   module.exports = {
@@ -102,13 +146,14 @@
   EventEmitter2 = require('eventemitter2').EventEmitter2;
   World = (function() {
     __extends(World, EventEmitter2);
-    function World() {
+    function World(height, width) {
       this.addAvatar = __bind(this.addAvatar, this);      console.log("World Created");
       this.avatars = [];
     }
     World.prototype.addAvatar = function(avatar) {
       this.avatars.push(avatar);
-      return this.emit('avatar.added', avatar);
+      this.emit('avatar.added', avatar);
+      return avatar;
     };
     return World;
   })();
@@ -116,23 +161,46 @@
     World: World
   };
 }).call(this);
+}, "settings": function(exports, require, module) {(function() {
+  ({
+    settings: {
+      world: {
+        width: 600,
+        height: 600
+      }
+    }
+  });
+  module.exports = settings;
+}).call(this);
 }, "views/avatarview": function(exports, require, module) {(function() {
   var AvatarView;
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
   AvatarView = (function() {
-    function AvatarView(avatar) {
+    function AvatarView(avatar, canvas) {
       this.avatar = avatar;
+      this.canvas = canvas;
       this.render = __bind(this.render, this);
       console.log("new avatar view");
+      this.avatar.on('avatar.change', __bind(function() {
+        return this.render();
+      }, this));
     }
-    AvatarView.prototype.render = function(canvas) {
-      canvas.addChild(canvas.display.rectangle({
-        x: this.avatar.x,
-        y: this.avatar.y,
-        width: 10,
-        height: 10,
-        fill: "#333"
-      }));
+    AvatarView.prototype.render = function() {
+      if (!(this.displayElement != null)) {
+        this.displayElement = this.canvas.display.rectangle({
+          x: this.avatar.x,
+          y: this.avatar.y,
+          width: 10,
+          height: 10,
+          fill: "#333"
+        });
+        this.canvas.addChild(this.displayElement);
+      } else {
+        this.displayElement.x = this.avatar.x;
+        this.displayElement.y = this.avatar.y;
+        this.canvas.draw.redraw();
+      }
+      console.log(this.canvas);
       console.log("rendering avatar: ");
       console.log(this.avatar.name);
       console.log(this.avatar.x);
@@ -159,15 +227,15 @@
       this.canvas = oCanvas.create({
         canvas: this.el
       });
-      this.canvas.width = 600;
-      this.canvas.height = 600;
+      this.canvas.width = this.world.width;
+      this.canvas.height = this.world.height;
       this.world.on('avatar.added', __bind(function(avatar) {
-        return this.addAvatarView(new AvatarView(avatar));
+        return this.addAvatarView(new AvatarView(avatar, this.canvas));
       }, this));
     }
     WorldView.prototype.addAvatarView = function(avatarView) {
       this.avatarViews.push(avatarView);
-      return avatarView.render(this.canvas);
+      return avatarView.render();
     };
     return WorldView;
   })();
