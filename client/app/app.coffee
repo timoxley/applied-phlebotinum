@@ -5,10 +5,8 @@ AvatarController = require('./controllers/avatarcontroller').AvatarController
 
 module.exports = 
 	init: ->
-		now.receiveWorld = ->
-			console.log now.world
-
-		now.getWorld()
-
+		now.getWorld (world) ->
+			@worldView = new WorldView(world, '#world')
+			
 			#@avatarController = new AvatarController(test1, @worldView.canvas)
-#			@worldView = new WorldView(world, '#world')
+#			

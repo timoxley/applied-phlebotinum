@@ -1,11 +1,22 @@
-EventEmitter2 = require('eventemitter2').EventEmitter2
 
-class World extends EventEmitter2
+
+try
+	Signal = require("../../../lib/signals").Signal
+catch err
+	Signal = require('signals').Signal
+
+
+class World
 	constructor: (@height, @width) ->
+		console.log "new World"
+		
+		
 		@avatars = []
+		@avatarAdded = new Signal()
+		console.log @avatarAdded.add
 	addAvatar: (avatar) =>
 		@avatars.push avatar
-		@emit 'avatar.added', avatar
+		@avatarAdded.dispatch avatar
 		avatar
 		
 module.exports =

@@ -14,7 +14,7 @@ class AvatarController
 				when @canvas.keyboard.ARROW_RIGHT
 					event.preventDefault()
 					@avatar.x += 10
-			@avatar.dirty = true
+			@avatar.changed.dispatch()
 
 module.exports =
 	AvatarController: AvatarController

@@ -10,8 +10,8 @@ class WorldView
 			canvas: @el
 		@canvas.width = @world.width
 		@canvas.height = @world.height
-		
-		@world.on 'avatar.added', (avatar) =>
+		console.log @world.avatarAdded
+		@world.avatarAdded.add (avatar) =>
 			@addAvatarView new AvatarView(avatar, @canvas)
 			
 	addAvatarView: (avatarView) =>

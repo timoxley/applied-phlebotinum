@@ -1,6 +1,4 @@
-EventEmitter2 = require('eventemitter2').EventEmitter2
-
-class Client extends EventEmitter2
+class Client
 	constructor: (@id) ->
 		# Do stuff
 		
