@@ -12,10 +12,13 @@ class WorldView
 		@canvas.height = @world.height
 		@world.avatarAdded.add (avatar) =>
 			@addAvatarView new AvatarView(avatar, @canvas)
-			
+		@world.avatarRemoved.add (avatar) =>
+			@addAvatarView new AvatarView(avatar, @canvas)	
 	addAvatarView: (avatarView) =>
-		@avatarViews.push(avatarView)
+		@avatarViews[avatarView.avatar.userId] = avatarView
 		avatarView.render()
+	removeAvatarView: (avatarView) =>
+		delete @avatarViews[avatarView.avatar.userId]
 		
 		
 module.exports =

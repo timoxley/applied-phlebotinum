@@ -11,8 +11,8 @@ class World
 		@avatars ?= []
 		console.log "new World"
 		@avatarAdded = new Signal()
-
-		console.log @
+		@avatarRemoved = new Signal()
+		@addAvatar userId for userId in @users
 
 	addUser: (userId) =>
 		@addAvatar new Avatar {userId}
@@ -22,9 +22,11 @@ class World
 
 	addAvatar: (avatar) =>
 		@avatars[avatar.userId] = avatar
-
+		avatarRemoved
 	removeAvatar: (userId) =>
+		avatarRemoved.dispatch @avatars[userId]
+		@avatars[userId].destroy()
 		delete @avatars[userId]
-
+		
 module.exports =
 	World: World
