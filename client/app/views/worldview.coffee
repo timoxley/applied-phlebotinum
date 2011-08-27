@@ -1,4 +1,6 @@
 AvatarView = require('./avatarview').AvatarView
+
+
 class WorldView
 	constructor: (@world, @el) ->
 		console.log "WorldView Created for world:"
@@ -6,15 +8,15 @@ class WorldView
 		@avatarViews = []
 		@canvas = oCanvas.create
 			canvas: @el
-		@canvas.width = 600
-		@canvas.height = 600
+		@canvas.width = @world.width
+		@canvas.height = @world.height
+		
 		@world.on 'avatar.added', (avatar) =>
-			@addAvatarView new AvatarView(avatar)
-			
+			@addAvatarView new AvatarView(avatar, @canvas)
 			
 	addAvatarView: (avatarView) =>
 		@avatarViews.push(avatarView)
-		avatarView.render(@canvas)
+		avatarView.render()
 		
 		
 module.exports =

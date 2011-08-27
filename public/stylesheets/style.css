@@ -17,6 +17,6 @@ footer .wrap {
   border-top: 1px solid #fefefe;
   border-left: 1px solid #fefefe;
 }
-#content .wrap {
-  padding: 20px 40px;
+#content #world {
+  border: 1px solid #eee;
 }
