@@ -20,7 +20,8 @@
     "stylus": "~0.15.1",
     "eventemitter2": "~0.4.1",
     "coffee-script": "~1.1.2",
-    "underscore" : "~1.1.7"
+    "underscore" : "~1.1.7",
+    "socket.io" : "~0.7.9"
   },
   "devDependencies": {}
 }
