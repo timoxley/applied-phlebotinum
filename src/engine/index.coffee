@@ -4,8 +4,8 @@ Client = require('./client').Client
 
 
 class Engine extends EventEmitter2
-  constructor: ->
-    # Do stuff
+	constructor: ->
+		# Do stuff
 
 module.exports
-  Endine: Engine
+	Endine: Engine

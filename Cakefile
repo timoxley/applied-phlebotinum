@@ -2,7 +2,7 @@ spawn = require('child_process').spawn
 exec = require('child_process').exec
 
 build = (next) ->
-  next?()
+	next?()
 #	console.log "building ./src..."
 #	coffee = spawn 'coffee', ['-co', '.', './src']
 
