@@ -49,17 +49,17 @@
   }
   return this.require.define;
 }).call(this)({"app": function(exports, require, module) {(function() {
-  var World;
+  var World, WorldView;
   World = require('./models/world').World;
+  WorldView = require('./views/worldview').WorldView;
   module.exports = {
     init: function() {
-      return World = new World();
+      return World = new World(new WorldView());
     }
   };
 }).call(this);
 }, "models/world": function(exports, require, module) {(function() {
-  var EventEmitter2, World;
-  EventEmitter2 = require('eventemitter2');
+  var World;
   World = (function() {
     function World(el) {
       this.el = el;
@@ -69,6 +69,19 @@
   })();
   module.exports = {
     World: World
+  };
+}).call(this);
+}, "views/worldview": function(exports, require, module) {(function() {
+  var WorldView;
+  WorldView = (function() {
+    function WorldView(el) {
+      this.el = el;
+      console.log("WorldView Created");
+    }
+    return WorldView;
+  })();
+  module.exports = {
+    WorldView: WorldView
   };
 }).call(this);
 }, "eventemitter2": function(exports, require, module) {

@@ -1,4 +1,4 @@
-EventEmitter2 = require 'eventemitter2'
+#EventEmitter2 = require('eventemitter2').EventEmitter2
 
 class World
 	constructor: (@el) ->
@@ -7,4 +7,3 @@ class World
 		
 module.exports =
 	World: World
-#exports = World
