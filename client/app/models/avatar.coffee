@@ -7,7 +7,7 @@ class Avatar extends EventEmitter2
 		@x = Math.floor(Math.random() * 60) * 10
 		@y = Math.floor(Math.random() * 60) * 10
 
-	changed: => 
+	changed: =>
 		@emit 'avatar.change'
 	
 module.exports =

@@ -1,12 +1,16 @@
 http = require('http')
 nko = require('nko')('ahE2gHoOKLxdrUI0')
+coffee = require('coffee-script')
 
-_ = require 'underscore'
+common = require('./app/common')
+
+# Winston does logging
+winston = common.winston
+
+appDir = common.appDir
 
 # allows us to write client-side commonjs modules
 stitch = require('stitch')
-
-coffee = require('coffee-script')
 
 express = require('express')
 fs = require('fs')
@@ -15,7 +19,6 @@ path = require('path')
 # view libs
 stylus = require('stylus')
 nib = require('nib')
-
 
 # utility helper. If dir exists return true
 directoryExists = (dir) ->
@@ -27,19 +30,19 @@ directoryExists = (dir) ->
 
 # Stitch configuration
 package = stitch.createPackage
-	paths: ["#{__dirname}/client/app","#{__dirname}/client/app/", path.resolve(require.resolve('eventemitter2'), '..')]
+	paths: ["#{appDir}/client/app", "#{appDir}/client/app/", path.resolve(require.resolve('eventemitter2'), '..')]
 
 package.compile (err, source) ->
-	destDir = "#{__dirname}/public/scripts/"
+	destDir = "#{appDir}/public/scripts/"
 
 	if !directoryExists destDir
 		fs.mkdirSync destDir, 0775
 
-	fs.writeFile "#{__dirname}/public/scripts/application.js", source, (err) ->
+	fs.writeFile "#{appDir}/public/scripts/application.js", source, (err) ->
 		if (err)
 			throw err
 
-		console.log 'Compiled application.js'
+		winston.info 'Compiled application.js'
 
 # Express configuration
 app = express.createServer()
@@ -48,8 +51,8 @@ app.configure ->
 	app.use express.bodyParser()
 	app.use express.cookieParser()
 	app.use stylus.middleware
-		src: "#{__dirname}/app/views"
-		dest: "#{__dirname}/public"
+		src: "#{appDir}/app/views"
+		dest: "#{appDir}/public"
 		force: true
 		compile: (str, path) ->
 			return stylus(str)
@@ -58,7 +61,7 @@ app.configure ->
 				.set('warn', true)
 				.use(nib())
 
-	app.set 'views', "#{__dirname}/app/views"
+	app.set 'views', "#{appDir}/app/views"
 	app.set 'view engine', 'jade'
 
 	app.get '/', (req, res) ->
@@ -67,12 +70,44 @@ app.configure ->
 			project: "Applied Phlebotinum"
 			page_title: "Home"
 		res.render 'index', options
-	app.get '/test', (req, res) ->
-		options = {}
-		res.send "#{__dirname}/client/app"
 
+	app.get '/game/new', (req, res) ->
+		
+	
 	app.use express.logger()
-	app.use express.static "#{__dirname}/public"
+	app.use express.static "#{appDir}/public"
+
+
+
+
+
+
+
+
+
+
+#common.now = now
+
+engine = require './app/engine'
+engine.newGame()
 
 app.listen parseInt(process.env.PORT) || 7777
-console.log 'Listening on ' + app.address().port
+winston.info 'Listening on ' + app.address().port
+
+now = require 'now'
+
+everyone = now.initialize app
+everyone.now.getWorld = ->
+	@now.world = 5
+	@now.receiveWorld()
+
+now.on 'connect', ->
+	#availableHosts = host for host in hosts when host.notFull()
+	# host = availableHosts[Math.floor(Math.random(availableHosts.length))] unless availableHosts.length == 0
+	winston.info 'connected: '+@user.clientId
+#	host = hosts[0]
+#	host.group.addUser @user.clientId
+#	@user.world = host.world
+
+now.on 'disconnect', ->
+	console.log "Left : " + @now

@@ -1,10 +1,12 @@
 (function() {
-  var app, coffee, directoryExists, express, fs, http, nib, nko, package, path, stitch, stylus, _;
+  var app, appDir, coffee, common, directoryExists, engine, everyone, express, fs, http, nib, nko, now, package, path, stitch, stylus, winston;
   http = require('http');
   nko = require('nko')('ahE2gHoOKLxdrUI0');
-  _ = require('underscore');
-  stitch = require('stitch');
   coffee = require('coffee-script');
+  common = require('./app/common');
+  winston = common.winston;
+  appDir = common.appDir;
+  stitch = require('stitch');
   express = require('express');
   fs = require('fs');
   path = require('path');
@@ -19,19 +21,19 @@
     }
   };
   package = stitch.createPackage({
-    paths: ["" + __dirname + "/client/app", "" + __dirname + "/client/app/", path.resolve(require.resolve('eventemitter2'), '..')]
+    paths: ["" + appDir + "/client/app", "" + appDir + "/client/app/", path.resolve(require.resolve('eventemitter2'), '..')]
   });
   package.compile(function(err, source) {
     var destDir;
-    destDir = "" + __dirname + "/public/scripts/";
+    destDir = "" + appDir + "/public/scripts/";
     if (!directoryExists(destDir)) {
       fs.mkdirSync(destDir, 0775);
     }
-    return fs.writeFile("" + __dirname + "/public/scripts/application.js", source, function(err) {
+    return fs.writeFile("" + appDir + "/public/scripts/application.js", source, function(err) {
       if (err) {
         throw err;
       }
-      return console.log('Compiled application.js');
+      return winston.info('Compiled application.js');
     });
   });
   app = express.createServer();
@@ -39,14 +41,14 @@
     app.use(express.bodyParser());
     app.use(express.cookieParser());
     app.use(stylus.middleware({
-      src: "" + __dirname + "/app/views",
-      dest: "" + __dirname + "/public",
+      src: "" + appDir + "/app/views",
+      dest: "" + appDir + "/public",
       force: true,
       compile: function(str, path) {
         return stylus(str).set('filename', path).set('compress', false).set('warn', true).use(nib());
       }
     }));
-    app.set('views', "" + __dirname + "/app/views");
+    app.set('views', "" + appDir + "/app/views");
     app.set('view engine', 'jade');
     app.get('/', function(req, res) {
       var options;
@@ -57,14 +59,24 @@
       };
       return res.render('index', options);
     });
-    app.get('/test', function(req, res) {
-      var options;
-      options = {};
-      return res.send("" + __dirname + "/client/app");
-    });
+    app.get('/game/new', function(req, res) {});
     app.use(express.logger());
-    return app.use(express.static("" + __dirname + "/public"));
+    return app.use(express.static("" + appDir + "/public"));
   });
+  engine = require('./app/engine');
+  engine.newGame();
   app.listen(parseInt(process.env.PORT) || 7777);
-  console.log('Listening on ' + app.address().port);
+  winston.info('Listening on ' + app.address().port);
+  now = require('now');
+  everyone = now.initialize(app);
+  everyone.now.getWorld = function() {
+    this.now.world = 5;
+    return this.now.receiveWorld();
+  };
+  now.on('connect', function() {
+    return winston.info('connected: ' + this.user.clientId);
+  });
+  now.on('disconnect', function() {
+    return console.log("Left : " + this.now);
+  });
 }).call(this);
