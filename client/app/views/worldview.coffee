@@ -6,16 +6,15 @@ class WorldView
 		@avatarViews = []
 		@canvas = oCanvas.create
 			canvas: @el
-		
-		
-		
+		@canvas.width = 600
+		@canvas.height = 600
 		@world.on 'avatar.added', (avatar) =>
-			@addAvatarView AvatarView.create(avatar, @canvas)
+			@addAvatarView new AvatarView(avatar)
+			
 			
 	addAvatarView: (avatarView) =>
 		@avatarViews.push(avatarView)
-		console.log avatarView
-		@canvas.addChild avatarView
+		avatarView.render(@canvas)
 		
 		
 module.exports =

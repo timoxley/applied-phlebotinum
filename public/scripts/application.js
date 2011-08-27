@@ -80,6 +80,8 @@
     function Avatar(name) {
       this.name = name;
       console.log("Avatar Created: " + name);
+      this.x = Math.random() * 200;
+      this.y = Math.random() * 200;
     }
     return Avatar;
   })();
@@ -116,22 +118,28 @@
 }).call(this);
 }, "views/avatarview": function(exports, require, module) {(function() {
   var AvatarView;
+  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
   AvatarView = (function() {
     function AvatarView(avatar) {
       this.avatar = avatar;
+      this.render = __bind(this.render, this);
       console.log("new avatar view");
     }
+    AvatarView.prototype.render = function(canvas) {
+      canvas.addChild(canvas.display.rectangle({
+        x: this.avatar.x,
+        y: this.avatar.y,
+        width: 10,
+        height: 10,
+        fill: "#333"
+      }));
+      console.log("rendering avatar: ");
+      console.log(this.avatar.name);
+      console.log(this.avatar.x);
+      return console.log(this.avatar.y);
+    };
     return AvatarView;
   })();
-  AvatarView.create = function(avatar, canvas) {
-    return canvas.display.rectangle({
-      x: Math.random() * 200,
-      y: Math.random() * 200,
-      width: 10,
-      height: 10,
-      fill: "#333"
-    });
-  };
   module.exports = {
     AvatarView: AvatarView
   };
@@ -151,14 +159,15 @@
       this.canvas = oCanvas.create({
         canvas: this.el
       });
+      this.canvas.width = 600;
+      this.canvas.height = 600;
       this.world.on('avatar.added', __bind(function(avatar) {
-        return this.addAvatarView(AvatarView.create(avatar, this.canvas));
+        return this.addAvatarView(new AvatarView(avatar));
       }, this));
     }
     WorldView.prototype.addAvatarView = function(avatarView) {
       this.avatarViews.push(avatarView);
-      console.log(avatarView);
-      return this.canvas.addChild(avatarView);
+      return avatarView.render(this.canvas);
     };
     return WorldView;
   })();
