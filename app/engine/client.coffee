@@ -16,7 +16,7 @@ class Client
 		socket.emit 'sendWorld', @world.serialize()
 		socket.emit 'sendPlayer', @socket.id
 		
-		@socket.on 'player-moved', {x, y} =>
+		@socket.on 'player-moved', ({x, y}) =>
 			@avatar.move x, y
 
 		@socket.on 'zombie-killed', (id) =>
