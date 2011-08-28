@@ -40,6 +40,8 @@ footer a {
   width: 900px;
   height: 506px;
   background: url("/images/overlay.png");
+  opacity: 0.8;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
 }
 #content #world {
   border: 0px solid #eee;
