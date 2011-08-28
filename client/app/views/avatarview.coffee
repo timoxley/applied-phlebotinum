@@ -3,6 +3,8 @@ class AvatarView
 		@actor.changed.add (motion) =>
 			@render(motion)
 		@direction = @actor.DOWN
+		unless @sprite_file?
+			@sprite_file = 'male-01-walk'
 		@render()
 		
 	render: (motion) =>
@@ -28,7 +30,7 @@ class AvatarView
 				origin:
 					x: 'center'
 					y: 'center'
-				image: '/images/sprites/male-01-walk.png'
+				image: '/images/sprites/' + @sprite_file + '.png'
 				generate: true
 				width: 40
 				offset_x: 0
