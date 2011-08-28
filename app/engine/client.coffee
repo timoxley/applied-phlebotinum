@@ -7,6 +7,8 @@ Zombie = require("#{appDir}/client/app/models/zombie").Zombie
 
 class Client
 	assignedZombies: 5
+	activeZombies: 0
+	kills: 0
 	
 	constructor: (@socket, @world) ->
 		@id = @socket.id
@@ -18,8 +20,11 @@ class Client
 		@avatar = new Avatar {@id, x, y}
 		@world.addActor @avatar
 
-		# Add zombies targeting this user
+		# Add zombies to target this user
 		@assignZombies()
+		setTimeout =>
+			@assignZombies()
+		, 5000
 
 		# Send current game state to client
 		socket.emit 'sendWorld', @world.serialize()
@@ -29,11 +34,14 @@ class Client
 			@avatar.update data
 			@socket.broadcast.emit 'updateActor', @avatar.serialize()
 	
-		@socket.on 'zombie-killed', (id) =>
-			@world.killZombie id
+		@socket.on 'killZombie', (id) =>
+			@world.killActor id
+			@kills += 1
+			@socket.broadcast.emit 'removeActor', id
 
 	assignZombies: =>
-		@assignZombie() for num in [1..@assignedZombies]
+		zombiesNeeded = @assignedZombies - @activeZombies
+		@assignZombie() for num in [0..zombiesNeeded-1]
 
 	assignZombie: =>
 		x = Math.random() * common.settings.world.width
@@ -53,6 +61,7 @@ class Client
 		zombie.setTarget @avatar.id
 
 		@world.addActor zombie
+		@activeZombies += 1
 
 	emitEvent: (event, arguments) =>
 		@socket.emit event, arguments
