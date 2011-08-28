@@ -4,9 +4,12 @@ ZombieView = require('./zombieview').ZombieView
 
 class WorldView
 	constructor: (@world, @el) ->
+		
 		@actorViews = {}
 		@canvas = oCanvas.create
 			canvas: @el
+			
+		@canvas.settings.fps = 6
 		@canvas.width = @world.width
 		@canvas.height = @world.height
 		

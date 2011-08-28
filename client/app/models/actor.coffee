@@ -37,6 +37,7 @@ class Actor
 		
 		@movementBus.dispatch @
 		@isMoving = true
+		
 		@changed.dispatch()
 	stop: =>
 		@isMoving = false

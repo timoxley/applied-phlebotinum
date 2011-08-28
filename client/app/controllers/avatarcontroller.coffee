@@ -1,5 +1,5 @@
 class AvatarController
-	constructor: (@avatar, @canvas) ->
+	constructor: (@avatar, @canvas, @avatarView) ->
 		@canvas.isKeyDown = (key) =>
 			@canvas.keyboard.getKeysDown().indexOf(String(key)) != -1
 		@canvas.keyboard.W = 87
@@ -7,9 +7,10 @@ class AvatarController
 		@canvas.keyboard.A = 65
 		@canvas.keyboard.D = 68
 		
-		step = 30
+		step = 180
 		@stepSize = @avatar.max_speed * step/1000
 		timeout = undefined
+
 		@canvas.setLoop =>
 			isDown = false
 			if canvas.isKeyDown(@canvas.keyboard.ARROW_UP) or canvas.isKeyDown(@canvas.keyboard.W)

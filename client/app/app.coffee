@@ -24,19 +24,21 @@ class App
 		@socket.on 'sendMyAvatar', (avatarId) =>
 			@me = @world.getActor avatarId
 			@me.movementBus = new Signal()
+			update = _.throttle (avatar) =>
+				console.log('updateAvatar')
+				@socket.emit 'updateAvatar',
+					x: avatar.x
+					y: avatar.y
+			, 250
 			@me.movementBus.add (avatar) =>
-				_.throttle
-					@socket.emit 'updateAvatar',
-						x: avatar.x
-						y: avatar.y
-				, 1000
+				update(avatar)
 			@me.me = true
 			@me.changed.dispatch()
 			new AvatarController(@me, @worldView.canvas)
 		@socket.on 'updateActor', (data) =>
-			_.throttle 
-				@world.getActor(data.id)?.update(data)
-			, 1000
+			console.log('updateActor')
+			@world.getActor(data.id)?.update(data)
+
 		@socket.on 'newActor', (data) =>
 			@world.addActor @world.createActor(data)
 		@socket.on 'removeActor', (id) =>
