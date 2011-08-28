@@ -43,9 +43,9 @@ class Actor
 		@changed.dispatch 'stop'
 	update: ({@x, @y, @health}) =>
 		@changed.dispatch()
-	adjustHealth: (value) =>
-		@health += value
-		if @health <= 0
-			died.dispatch @
+#	adjustHealth: (value) =>
+#		@health += value
+#		if @health <= 0
+#			died.dispatch @
 
 module.exports = {Actor}

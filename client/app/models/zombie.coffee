@@ -12,7 +12,7 @@ class Zombie extends Actor
 	###
 	setTarget: (@target) =>
 
-	shoot: (damage) =>
+	eat: (damage) =>
 		@health -= damage
 
 		if @health <= 0
