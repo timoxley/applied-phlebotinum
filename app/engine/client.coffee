@@ -17,4 +17,7 @@ class Client
 		@socket.on 'player-moved', (x, y) =>
 			@world.movePlayer @id, x, y
 
+	destroy: =>
+		@world.removeAvatar @id
+
 module.exports = {Client}

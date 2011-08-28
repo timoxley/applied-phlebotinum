@@ -25,8 +25,10 @@ class Host
 		client
 
 	socketDisconnect: (socket) =>
-		@world.removeAvatar socket.id
-		delete	@clients[socket.id]
+		client = @getClient socket.id
+		client.destroy()
+
+		delete @clients[socket.id]
 
 	getClient: (clientId) =>
 		@clients[clientId]
