@@ -28,16 +28,9 @@ class App
 					x: avatar.x,
 					y: avatar.y
 			new AvatarController(@me, @worldView.canvas)
-		socket.on 'updateAvatars', (avatarId) =>
-			@me = @world.avatars[avatarId]
-			@me.movementBus = new Signal()
-			@me.movementBus.add (avatar) =>
-				console.log 'moved:'
-				console.log avatar
-				socket.emit 'playerMove',
-					x: avatar.x,
-					y: avatar.y
-			new AvatarController(@me, @worldView.canvas)
+		socket.on 'updateAvatar', (data) =>
+			@world.avatars[data.id].update(data)
+		new AvatarController(@me, @worldView.canvas)
 	
 module.exports = {App}
 

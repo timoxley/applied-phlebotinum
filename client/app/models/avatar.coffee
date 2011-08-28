@@ -19,12 +19,15 @@ class Avatar
 			@x += x
 		if y?
 			@y += y
+		
+		@movementBus.dispatch @
+		@changed.dispatch()
+	update: ({@x, @y, @health}) =>
+		@changed.dispatch()
 	adjustHealth: (value) =>
 		@health += value
 		if @health <= 0
 			died.dispatch @
-		
-		@movementBus.dispatch @
-		@changed.dispatch()
+	
 module.exports =
 	Avatar: Avatar
