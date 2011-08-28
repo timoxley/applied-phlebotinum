@@ -32,7 +32,9 @@ class Client
 
 		@socket.on 'updateAvatar', (data) =>
 			@avatar.update data
-			@socket.broadcast.emit 'updateActor', @avatar.serialize()
+			_.throttle
+				@socket.broadcast.emit 'updateActor', @avatar.serialize()
+			, 1000
 	
 		@socket.on 'killZombie', (id) =>
 			@world.killActor id
