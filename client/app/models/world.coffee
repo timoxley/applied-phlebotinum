@@ -1,7 +1,5 @@
-_ = require 'underscore'
-
 Avatar = require('./avatar').Avatar
-Zombie = require('./avatar').Zombie
+Zombie = require('./zombie').Zombie
 
 try
 	Signal = require("../../../lib/signals").Signal
@@ -18,7 +16,7 @@ class World
 		@actors = {}
 		if actors?
 			(console.log actor) for id, actor of actors
-			(@addActor new Avatar(actor)) for id, actor of actors
+			(@addActor @createActor actor) for id, actor of actors
 
 	addActor: (actor) =>
 		@actors[actor.id] = actor
@@ -35,9 +33,15 @@ class World
 	getActor: (id) =>
 		@actors[id] || null
 
+	createActor: (actor) ->
+		switch actor.type
+			when 'Avatar' then new Avatar(actor)
+			when 'Zombie' then new Zombie(actor)
+			else null
+
 	serialize: =>
 		out =
 			width: @width
 			height: @height
-			actors: (actor.serialize()) for id, actor of @actors  
+			actors: (actor.serialize()) for id, actor of @actors
 module.exports = {World}
