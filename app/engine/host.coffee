@@ -22,6 +22,8 @@ class Host
 		
 		@world.addAvatar new Avatar
 			id: client.id
+			x: Math.floor(Math.random() * 60) * 10
+			y: Math.floor(Math.random() * 60) * 10
 
 
 	removeClient: (client) =>

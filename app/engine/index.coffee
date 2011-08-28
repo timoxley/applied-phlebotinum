@@ -24,9 +24,8 @@ class Engine
 			console.log socket
 			host = @selectHost()
 			host.addClient new Client(socket)
-			console.log host
+			console.log host.world.avatars
 			socket.emit 'sendWorld', host.world.serialize()
-			# host.addClient()
 	selectHost: =>
 		@host 
 		# socket.emit('news', { hello: 'world' });

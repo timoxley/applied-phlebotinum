@@ -1,5 +1,7 @@
 class AvatarView
 	constructor: (@avatar, @canvas) ->
+		console.log "avatar:"
+		console.log @avatar
 		@avatar.changed.add =>
 			@render()
 

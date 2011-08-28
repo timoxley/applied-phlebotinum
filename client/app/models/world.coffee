@@ -9,29 +9,23 @@ catch err
 
 
 class World
-	constructor: ({@id, @height, @width, @avatars}) ->
-		@avatars ?= {}
-		console.log "new World"
+	constructor: ({@id, @height, @width, avatars}) ->
 		@avatarAdded = new Signal()
 		@avatarRemoved = new Signal()
-
-	# addUser: (client) =>
-	# 	console.log 'Adding User'
-	# 	
-
-	# 
-	# 	@addAvatar new Avatar {userId, x, y}
-	# 
-	# removeUser: (userId) =>
-	# 	@removeAvatar userId
+		@avatars = {}
+		console.log avatars
+		if avatars?
+			(console.log avatar) for id, avatar of avatars
+			(@addAvatar new Avatar(avatar)) for id, avatar of avatars
+		else
+			
+		console.log "new World"
+		console.log @avatars
 
 	addAvatar: (avatar) =>
+		console.log @
 		@avatars[avatar.id] = avatar
-		
-		x = Math.floor(Math.random() * 60) * 10
-		y = Math.floor(Math.random() * 60) * 10
-		avatar.x = x
-		avatar.y = y
+
 		@avatarAdded.dispatch avatar
 		avatar
 	removeAvatar: (id) =>
@@ -42,5 +36,7 @@ class World
 		console.log "@avatars:"
 		console.log @avatars
 		out =
-			avatars: avatar.serialize() for id, avatar of @avatars  
+			width: @width
+			height: @height
+			avatars: (avatar.serialize()) for id, avatar of @avatars  
 module.exports = {World}
