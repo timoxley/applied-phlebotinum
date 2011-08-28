@@ -1,4 +1,6 @@
 
+_ = require 'underscore'
+
 try
 	Signal = require("../../../lib/signals").Signal
 catch err
@@ -18,7 +20,8 @@ class Actor
 		@min_movement = 3
 		@isMoving = false
 		@direction = Actor.DOWN
-	serialize: =>
+	serialize:  =>
+		console.log 'serialising actor'
 		out =
 			id: @id
 			x: @x

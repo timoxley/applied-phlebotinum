@@ -32,7 +32,6 @@ class WorldView
 			else null
 
 	render: =>
-		avatarView.render()
-		
+
 module.exports =
 	WorldView: WorldView

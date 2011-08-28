@@ -28,9 +28,9 @@ class App
 			new AvatarController(@me, @worldView.canvas)
 		socket.on 'updateActor', (data) =>
 			@world.getActor(data.id)?.update(data)
-		socket.on 'newAvatar', (data) =>
-			@world.addActor new Avatar(data)
-		socket.on 'removeAvatar', (id) =>
+		socket.on 'newActor', (data) =>
+			@world.addActor @world.createActor(data)
+		socket.on 'removeActor', (id) =>
 			@world.removeActor(id)
 	
 module.exports = {App}

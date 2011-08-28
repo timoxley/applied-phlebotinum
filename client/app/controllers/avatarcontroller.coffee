@@ -2,7 +2,6 @@ class AvatarController
 	constructor: (@avatar, @canvas) ->
 		@canvas.isKeyDown = (key) =>
 			@canvas.keyboard.getKeysDown().indexOf(String(key)) != -1
-		console.log @avatar
 		@canvas.keyboard.W = 87
 		@canvas.keyboard.S = 83
 		@canvas.keyboard.A = 65
