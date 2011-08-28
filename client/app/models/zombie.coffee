@@ -11,7 +11,13 @@ class Zombie extends Actor
 	# @target The id of the avatar to target
 	###
 	setTarget: (@target) =>
-
+		avatar = @world.getActor @target
+		setInterval =>
+			directionX = avatar.x - @.x
+			directionY = avatar.y - @.y
+			@x += directionX / @.max_speed
+			@y += directionY / @.max_speed
+		, 200
 	eat: (damage) =>
 		@health -= damage
 
@@ -21,7 +27,6 @@ class Zombie extends Actor
 	serialize: =>
 		out = super()
 		out.target = @target
-
 		out
 
 module.exports = {Zombie}

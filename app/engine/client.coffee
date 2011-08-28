@@ -6,7 +6,7 @@ Avatar = require("#{appDir}/client/app/models/avatar").Avatar
 Zombie = require("#{appDir}/client/app/models/zombie").Zombie
 
 class Client
-	assignedZombies: 5
+	assignedZombies: 1
 	activeZombies: 0
 	kills: 0
 	
@@ -40,10 +40,12 @@ class Client
 			@kills += 1
 			@socket.broadcast.emit 'removeActor', id
 
+		setInterval =>
+			@socket.emit 'updateActors', @world.serialize().actors
+		, 500
 	assignZombies: =>
 		zombiesNeeded = @assignedZombies - @activeZombies
 		@assignZombie() for num in [0..zombiesNeeded-1]
-
 	assignZombie: =>
 		x = Math.random() * common.settings.world.width
 		y = Math.random() * common.settings.world.height
@@ -59,8 +61,10 @@ class Client
 		id = _.uniqueId(['zombie_'])
 
 		zombie = new Zombie {id, x, y}
+		zombie.world = @world
+			
 		zombie.setTarget @avatar.id
-
+		
 		@world.addActor zombie
 		@socket.broadcast.emit 'newActor', zombie.serialize()
 		@activeZombies += 1

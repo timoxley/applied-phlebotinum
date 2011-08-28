@@ -41,14 +41,22 @@ class AvatarController
 			
 		@canvas.keyboard.addEvent 'keydown', (event) =>
 			switch event.keyCode
-				when @canvas.keyboard.ARROW_UP
+				when @canvas.keyboard.ARROW_UP or @canvas.keyboard.W
 					event.preventDefault()
-				when @canvas.keyboard.ARROW_DOWN
-					event.preventDefault()	
-				when @canvas.keyboard.ARROW_LEFT
+					avatar.move
+						y: -@stepSize
+				when @canvas.keyboard.ARROW_DOWN or @canvas.keyboard.S
 					event.preventDefault()
-				when @canvas.keyboard.ARROW_RIGHT
+					avatar.move
+						y: @stepSize
+				when @canvas.keyboard.ARROW_LEFT or @canvas.keyboard.A
 					event.preventDefault()
+					avatar.move
+						x: -@stepSize
+				when @canvas.keyboard.ARROW_RIGHT or @canvas.keyboard.D
+					event.preventDefault()
+					avatar.move
+						x: @stepSize
 
 module.exports =
 	AvatarController: AvatarController

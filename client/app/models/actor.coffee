@@ -15,6 +15,7 @@ class Actor
 	constructor: ({@id, @x, @y, @health, @me}) ->
 		@health ?= 100
 		@changed = new Signal()
+		@movementBus = new Signal()
 		@died = new Signal()
 		@max_speed = 60
 		@min_movement = 3
@@ -29,13 +30,12 @@ class Actor
 			type: @type
 			
 	move: ({x, y}) =>
-		if x? and 0 < @x + x < @world.width
+		if x? and 0 <= @x + x <= @world.width
 			@x += x
-		if y? and 0 < @y + y < @world.height
+		if y? and 0 <= @y + y <= @world.height
 			@y += y
-		
-		
-		@movementBus.dispatch @
+
+		@movementBus?.dispatch @
 		@isMoving = true
 		
 		@changed.dispatch()
@@ -43,6 +43,7 @@ class Actor
 		@isMoving = false
 		@changed.dispatch 'stop'
 	update: ({@x, @y, @health}) =>
+		console.log('updated')
 		@changed.dispatch()
 #	adjustHealth: (value) =>
 #		@health += value

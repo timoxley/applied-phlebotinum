@@ -13,7 +13,7 @@ class Engine
 		io = require('socket.io').listen(app)
 		io.enable 'browser client minification'
 		io.enable 'browser client etag'
-		io.set 'log level', 3
+		io.set 'log level', 0
 		io.set 'transports', [
 			'websocket'
 			'flashsocket'

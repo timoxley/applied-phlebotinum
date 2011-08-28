@@ -47,8 +47,6 @@ class AvatarView
 			@displayElement.y = @actor.y
 			
 			@canvas.addChild @displayElement
-
-
 		else
 			@displayElement.x = @actor.x
 			@displayElement.y = @actor.y

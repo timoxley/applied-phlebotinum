@@ -20,10 +20,15 @@ class App
 		@socket.on 'sendWorld', (worldData) =>
 			@world = new World(worldData)
 			@worldView = new WorldView(@world, '#world')
+		@socket.on 'updateActors', (actors) =>
+			for actor in actors when actor.id isnt @me.id
+				if @world.getActor(actor.id)?
+					@world.getActor(actor.id).update actor
+				else
+					@world.addActor @world.createActor actor
 			
 		@socket.on 'sendMyAvatar', (avatarId) =>
 			@me = @world.getActor avatarId
-			@me.movementBus = new Signal()
 			update = _.throttle (avatar) =>
 				console.log('updateAvatar')
 				@socket.emit 'updateAvatar',
