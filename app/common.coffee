@@ -8,5 +8,5 @@ module.exports =
 	appDir: path.normalize "#{__dirname}/.."
 	settings:
 		world:
-			width: 600
-			height: 600
+			width: 695
+			height: 605

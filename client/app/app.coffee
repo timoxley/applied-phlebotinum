@@ -10,7 +10,6 @@ catch err
 
 class App
 	constructor: ->
-
 		socket = io.connect "http://#{window.location.hostname}"
 		
 		socket.on 'sendWorld', (worldData) =>
@@ -25,6 +24,7 @@ class App
 				socket.emit 'updateAvatar',
 					x: avatar.x
 					y: avatar.y
+			@me.me = true
 			new AvatarController(@me, @worldView.canvas)
 		socket.on 'updateActor', (data) =>
 			@world.getActor(data.id)?.update(data)
