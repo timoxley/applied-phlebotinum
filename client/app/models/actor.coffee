@@ -30,9 +30,11 @@ class Actor
 			@x += x
 		if y? and 0 < @y + y < @world.height
 			@y += y
+		
+		
 		@movementBus.dispatch @
 		@isMoving = true
-		@changed.dispatch 'start'
+		@changed.dispatch()
 	stop: =>
 		@isMoving = false
 		@changed.dispatch 'stop'
