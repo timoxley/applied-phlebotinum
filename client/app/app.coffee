@@ -9,11 +9,7 @@ class App
 		socket.on 'sendWorld', (worldData) ->
 			@world = new World(worldData)
 			@worldView = new WorldView(@world, '#world')
-		    # socket.emit('my other event', { my: 'data' });
-
-
-
-		# now.getAvatar (avatar) ->
-		# 	that.addAvatar new Avatar(avatar)
+			console.log(worldData)
+			
 module.exports = {App}
 

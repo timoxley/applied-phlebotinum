@@ -3,8 +3,6 @@ AvatarView = require('./avatarview').AvatarView
 
 class WorldView
 	constructor: (@world, @el) ->
-		console.log "WorldView Created for world:"
-		console.log @world
 		@avatarViews = []
 		@canvas = oCanvas.create
 			canvas: @el
@@ -16,15 +14,15 @@ class WorldView
 		
 		@world.avatarAdded.add (avatar) =>
 			@addAvatarView new AvatarView(avatar, @canvas)
-		# 
+		
 		@world.avatarRemoved.add (avatar) =>
 			@addAvatarView new AvatarView(avatar, @canvas)
 		
 	addAvatarView: (avatarView) =>
-		console.log('addAvatarView')
 		@avatarViews[avatarView.avatar.userId] = avatarView
 		
 	removeAvatarView: (avatarView) =>
+		@avatarViews[avatarView.avatar.userId].destroy()
 		delete @avatarViews[avatarView.avatar.userId]
 		
 	render: =>

@@ -11,10 +11,7 @@ class Engine
 		@hosts = {}
 		@host = new Host @hosts.length
 		@hosts[@host.id] = @host
-		# 
-		# host.newClient.add (client) ->
-		# 	socket
-
+		@clients = {}
 		io = require('socket.io').listen(app)
 
 		io.sockets.on 'connection', (socket) =>
@@ -23,9 +20,13 @@ class Engine
 
 			socket.on 'disconnect', (id) =>
 				host.socketDisconnect socket
-
-	selectHost: =>
-		@host
+				
+	selectHost: (id) =>
+		if @clients[id]?
+			@clients[id]
+		else
+			@clients[id] = @host
+			@host
 		
 		# socket.emit('news', { hello: 'world' });
 		# socket.on('my other event', function (data) {

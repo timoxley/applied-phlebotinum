@@ -25,6 +25,7 @@ class World
 		@avatars[avatar.id] = avatar
 		@avatarAdded.dispatch avatar
 		avatar
+		
 	removeAvatar: (id) =>
 		@avatarRemoved.dispatch @avatars[id]
 		delete @avatars[id]

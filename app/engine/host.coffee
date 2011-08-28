@@ -12,8 +12,6 @@ class Host
 	constructor: (@id) ->
 		@world = new World settings.world
 		@world.avatarMoved.add (avatar) ->
-			# send message to all clients
-			
 		@clients = {}
 	socketConnect: (socket) =>
 		client = new Client socket, @world
