@@ -13,6 +13,7 @@ class App
 		    # socket.emit('my other event', { my: 'data' });
 
 
+
 		# now.getAvatar (avatar) ->
 		# 	that.addAvatar new Avatar(avatar)
 module.exports = {App}

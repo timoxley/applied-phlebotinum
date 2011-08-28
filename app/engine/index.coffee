@@ -1,7 +1,6 @@
 Server = require('./client').Server
 
 Host = require('./host').Host
-Client = require('./client').Client
 
 common = require '../common'
 
@@ -21,9 +20,8 @@ class Engine
 		io.sockets.on 'connection', (socket) =>
 			console.log socket
 			host = @selectHost()
-			host.addClient new Client(socket)
-			console.log host.world.avatars
-			socket.emit 'sendWorld', host.world.serialize()
+			client = host.socketConnect socket
+			
 	selectHost: =>
 		@host
 		

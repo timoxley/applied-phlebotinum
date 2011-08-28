@@ -12,6 +12,8 @@ class World
 	constructor: ({@id, @height, @width, avatars}) ->
 		@avatarAdded = new Signal()
 		@avatarRemoved = new Signal()
+		@avatarMoved = new Signal()
+
 		@avatars = {}
 		console.log avatars
 		if avatars?
@@ -22,16 +24,21 @@ class World
 		console.log "new World"
 		console.log @avatars
 
+
 	addAvatar: (avatar) =>
 		console.log @
 		@avatars[avatar.id] = avatar
-
 		@avatarAdded.dispatch avatar
 		avatar
 	removeAvatar: (id) =>
 		@avatarRemoved.dispatch @avatars[id]
 		@avatars[id].destroy()
 		delete @avatars[id]
+
+	moveAvatar: (id, x, y) =>
+		avatar = @avatars[id]
+		@avatarMoved.dispatch avatar
+
 	serialize: =>
 		console.log "@avatars:"
 		console.log @avatars

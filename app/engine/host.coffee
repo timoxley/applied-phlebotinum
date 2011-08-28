@@ -3,32 +3,33 @@ settings = common.settings
 appDir = common.appDir
 
 now = require 'now'
-Avatar = require("#{appDir}/client/app/models/avatar").Avatar
+Client = require('./client').Client
 World = require("#{appDir}/client/app/models/world").World
 
-try
-	Signal = require("../../../lib/signals").Signal
-catch err
-	Signal = require('signals').Signal
+#Signal = require('signals').Signal
 
 class Host
 	constructor: (@id) ->
 		@world = new World settings.world
+		@world.avatarMoved.add (avatar) ->
+			# send message to all clients
+			
 		@clients = {}
-	addClient: (client) =>
+	socketConnect: (socket) =>
+		client = new Client socket, @world
+
 		console.log "client:"
 		console.log client
+
 		@clients[client.id] = client
-		
-		@world.addAvatar new Avatar
-			id: client.id
-			x: Math.floor(Math.random() * 60) * 10
-			y: Math.floor(Math.random() * 60) * 10
+		client
 
+	socketDisconnect: (socket) =>
+		@world.removeAvatar socket.id
+		delete	@clients[socket.id]
 
-	removeClient: (client) =>
-		@world.removeAvatar client.id
-		delete	@clients[client.id]
+	getClient: (clientId) =>
+		@clients[clientId]
 
 
 module.exports =
