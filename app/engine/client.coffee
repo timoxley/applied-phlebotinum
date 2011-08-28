@@ -20,8 +20,11 @@ class Client
 		@avatar = new Avatar {@id, x, y}
 		@world.addActor @avatar
 
-		# Add zombies targeting this user
+		# Add zombies to target this user
 		@assignZombies()
+		setTimeout =>
+			@assignZombies()
+		, 5000
 
 		# Send current game state to client
 		socket.emit 'sendWorld', @world.serialize()
@@ -32,7 +35,7 @@ class Client
 			@socket.broadcast.emit 'updateActor', @avatar.serialize()
 	
 		@socket.on 'killZombie', (id) =>
-			@world.killZombie id
+			@world.killActor id
 			@kills += 1
 			@socket.broadcast.emit 'removeActor', id
 

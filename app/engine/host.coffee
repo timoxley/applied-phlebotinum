@@ -13,7 +13,7 @@ class Host
 	socketConnect: (socket) =>
 		client = new Client socket, @world
 		@clients[client.id] = client
-		socket.broadcast.emit 'newAvatar', client.avatar.serialize()
+		socket.broadcast.emit 'newActor', client.avatar.serialize()
 		client
 
 	socketDisconnect: (socket) =>
