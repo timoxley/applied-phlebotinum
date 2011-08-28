@@ -3,6 +3,8 @@ appDir = common.appDir
 Avatar = require("#{appDir}/client/app/models/avatar").Avatar
 
 class Client
+	zombies: 5
+	
 	constructor: (@socket, @world) ->
 		@id = @socket.id
 
@@ -11,8 +13,10 @@ class Client
 		y = Math.floor(Math.random() * 60) * 10
 		
 		@avatar = new Avatar {@id, x, y}
-		
 		@world.addAvatar @avatar
+
+		# Add zombies targeting this user
+
 
 		# Send current game state to client
 		socket.emit 'sendWorld', @world.serialize()
