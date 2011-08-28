@@ -9,14 +9,15 @@ class Client
 		# Add player avatar to world
 		x = Math.floor(Math.random() * 60) * 10
 		y = Math.floor(Math.random() * 60) * 10
-		@world.addAvatar new Avatar {@id, x, y}
+		@avatar = new Avatar {@id, x, y}
+		@world.addAvatar @avatar
 
 		# Send current game state to client
 		socket.emit 'sendWorld', @world.serialize()
 		socket.emit 'sendPlayer', @socket.id
 		
-		@socket.on 'player-moved', (x, y) =>
-			@world.movePlayer @id, x, y
+		@socket.on 'player-moved', {x, y} =>
+			@avatar.move x, y
 
 		@socket.on 'zombie-killed', (id) =>
 			@world.killZombie id

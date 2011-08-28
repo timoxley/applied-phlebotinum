@@ -29,6 +29,9 @@ class Host
 	getClient: (socket) =>
 		@clients[socket.id]
 
+	broadcast: (from, event, callback) =>
+
+
 
 module.exports =
 	Host: Host

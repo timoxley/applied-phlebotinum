@@ -31,10 +31,6 @@ class World
 		@avatarRemoved.dispatch @avatars[id]
 		delete @avatars[id]
 
-	moveAvatar: (id, x, y) =>
-		avatar = @avatars[id]
-		@avatarMoved.dispatch avatar
-
 	serialize: =>
 		out =
 			width: @width
