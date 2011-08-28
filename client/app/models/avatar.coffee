@@ -9,6 +9,7 @@ class Avatar
 		@health ?= 100
 		@changed = new Signal()
 		@died = new Signal()
+		@max_speed = 10
 	serialize: =>
 		out =
 			id: @id
@@ -18,10 +19,11 @@ class Avatar
 		if x?
 			@x += x
 		if y?
-			@y += y
-		
+			@y += y		
 		@movementBus.dispatch @
-		@changed.dispatch()
+		@changed.dispatch 'start'
+	stop: =>
+		@changed.dispatch 'stop'
 	update: ({@x, @y, @health}) =>
 		@changed.dispatch()
 	adjustHealth: (value) =>
