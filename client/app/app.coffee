@@ -8,8 +8,9 @@ try
 catch err
 	Signal = require('signals').Signal
 
-class App 
+class App
 	constructor: ->
+
 		socket = io.connect "http://#{window.location.hostname}"
 		
 		socket.on 'sendWorld', (worldData) =>
@@ -21,8 +22,6 @@ class App
 			@me = @world.avatars[avatarId]
 			@me.movementBus = new Signal()
 			@me.movementBus.add (avatar) =>
-				console.log 'moved:'
-				console.log avatar
 				socket.emit 'updateAvatar',
 					x: avatar.x
 					y: avatar.y
