@@ -10,38 +10,34 @@ catch err
 
 
 class World
-	constructor: ({@id, @height, @width, avatars}) ->
-		@avatarAdded = new Signal()
-		@avatarRemoved = new Signal()
-		@avatarChanged = new Signal()
+	constructor: ({@id, @height, @width, actors}) ->
+		@actorsAdded = new Signal()
+		@actorsRemoved = new Signal()
+		@actorsChanged = new Signal()
 
-		@avatars = {}
-		if avatars?
-			(console.log avatar) for id, avatar of avatars
-			(@addAvatar new Avatar(avatar)) for id, avatar of avatars
+		@actors = {}
+		if actors?
+			(console.log actor) for id, actor of actors
+			(@addActor new Avatar(actor)) for id, actor of actors
 
-		@zombies = {}
+	addActor: (actor) =>
+		@actors[actor.id] = actor
+		@actorsAdded.dispatch actor
+		actor.changed.add =>
+			@actorsChanged.dispatch actor
 
-	addAvatar: (avatar) =>
-		@avatars[avatar.id] = avatar
-		@avatarAdded.dispatch avatar
-		avatar.changed.add =>
-			@avatarChanged.dispatch avatar
-
-		avatar
+		actor
 		
-	removeAvatar: (id) =>
-		@avatarRemoved.dispatch @avatars[id]
-		delete @avatars[id]
+	removeActor: (id) =>
+		@actorsRemoved.dispatch @actors[id]
+		delete @actors[id]
 
-	addZombie: (zombie) =>
-
-	removeZombie: (zombie) =>
-
+	getActor: (id) =>
+		@actors[id] || null
 
 	serialize: =>
 		out =
 			width: @width
 			height: @height
-			avatars: (avatar.serialize()) for id, avatar of @avatars  
+			actors: (actor.serialize()) for id, actor of @actors  
 module.exports = {World}

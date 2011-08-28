@@ -13,7 +13,7 @@ class Client
 		y = Math.floor(Math.random() * 60) * 10
 		
 		@avatar = new Avatar {@id, x, y}
-		@world.addAvatar @avatar
+		@world.addActor @avatar
 
 		# Add zombies targeting this user
 
@@ -33,6 +33,6 @@ class Client
 		@socket.emit event, arguments
 
 	destroy: =>
-		@world.removeAvatar @id
+		@world.removeActor @id
 
 module.exports = {Client}
