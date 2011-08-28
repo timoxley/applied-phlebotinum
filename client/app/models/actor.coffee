@@ -4,11 +4,13 @@ catch err
 	Signal = require('signals').Signal
 
 class Actor
-	constructor: ({@id, @x, @y, @health}) ->
+	constructor: ({@id, @x, @y, @health, @me}) ->
 		@health ?= 100
 		@changed = new Signal()
 		@died = new Signal()
 		@max_speed = 60
+		@min_movement = 3
+		@isMoving = false
 	serialize: =>
 		out =
 			id: @id
@@ -20,8 +22,10 @@ class Actor
 		if y? and 0 < @y + y < @world.height
 			@y += y
 		@movementBus.dispatch @
+		@isMoving = true
 		@changed.dispatch 'start'
 	stop: =>
+		@isMoving = false
 		@changed.dispatch 'stop'
 	update: ({@x, @y, @health}) =>
 		@changed.dispatch()
