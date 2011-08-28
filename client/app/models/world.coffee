@@ -1,3 +1,5 @@
+_ = require 'underscore'
+
 Avatar = require('./avatar').Avatar
 
 try
@@ -8,11 +10,16 @@ catch err
 
 class World
 	constructor: ({@height, @width, @avatars}) ->
-		@avatars ?= []
+		@avatars ?= {}
 		console.log "new World"
 		@avatarAdded = new Signal()
-		@avatarRemoved = new Signal()
-		@addAvatar userId for userId in @users
+		@avatarRemvoved = new Signal()
+
+		@sendInitSignals()
+
+	sendInitSignals: =>
+		@avatarAdded.dispatch avatar for avatar of @avatars
+
 
 	addUser: (userId) =>
 		@addAvatar new Avatar {userId}
@@ -22,7 +29,8 @@ class World
 
 	addAvatar: (avatar) =>
 		@avatars[avatar.userId] = avatar
-		avatarRemoved
+		@avatarAdded.dispatch avatar
+
 	removeAvatar: (userId) =>
 		avatarRemoved.dispatch @avatars[userId]
 		@avatars[userId].destroy()

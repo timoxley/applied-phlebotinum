@@ -22,7 +22,7 @@
     }
   };
   package = stitch.createPackage({
-    paths: ["" + appDir + "/client/app", "" + appDir + "/client/app/", "" + appDir + "/lib/"]
+    paths: ["" + appDir + "/client/app", "" + appDir + "/client/app/", "" + appDir + "/lib/", path.resolve(require.resolve('underscore'), '..')]
   });
   package.compile(function(err, source) {
     var destDir;
