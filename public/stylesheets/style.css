@@ -1,22 +1,47 @@
 body {
-  background: url("/images/diagonal-noise.png");
-  padding: 70px 0;
+  background-color: #000;
+  padding: 50px 0;
 }
 header,
 footer,
 #content {
-  width: 700px;
+  width: 900px;
   margin: 0 auto;
 }
 header .wrap,
 footer .wrap {
   padding: 20px 0;
 }
+header h1 a {
+  color: #c02;
+  text-decoration: none;
+  font-size: 56px;
+  font-family: "CCRedAlertLANRegular";
+  text-shadow: 1px 1px 1px rgba(255,51,85,0.10);
+  font-weight: bold;
+}
+footer a {
+  color: #555;
+}
 #content {
   background: rgba(250,250,250,0.90);
-  border-top: 1px solid #fefefe;
-  border-left: 1px solid #fefefe;
+  border-top: 0px solid #fefefe;
+  border-left: 0px solid #fefefe;
+}
+#content .wrap {
+  position: relative;
+  width: 900px;
+  height: 506px;
+}
+#content .wrap #overlay {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 900px;
+  height: 506px;
+  background: url("/images/overlay.png");
 }
 #content #world {
-  border: 1px solid #eee;
+  border: 0px solid #eee;
+  background: url("/images/road-touched.jpg");
 }

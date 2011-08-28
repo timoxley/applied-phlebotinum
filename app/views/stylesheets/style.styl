@@ -1,13 +1,16 @@
 @import "nib"
 
-app-width = 700px
+
+
+
+app-width = 900px
 x-padding = 40px 
 y-padding = 20px 
 
 body
-	background: url('/images/diagonal-noise.png')
-	padding: 70px 0
-	
+	background-color: black
+	padding: 50px 0
+
 header, footer, #content
 	width: app-width
 	margin: 0 auto
@@ -15,11 +18,37 @@ header, footer, #content
 header, footer
 	.wrap
 		padding: 20px 0
+
+header
+	h1
+		a
+			color: #C02
+			text-decoration: none
+			font-size: 56px
+			font-family: 'CCRedAlertLANRegular'
+			text-shadow: 1px 1px 1px rgba(lighten(#C02, 20), 0.1)
+			font-weight: bold
+
+footer
+	a
+		color: #555
+
 #content
 	background: rgba(#fafafa, 0.9)
-	border-top: 1px solid #fefefe
-	border-left: 1px solid #fefefe
-	// .wrap
+	border-top: 0px solid #fefefe
+	border-left: 0px solid #fefefe
+	.wrap
+		position:relative
+		width: 900px
+		height: 506px
+		#overlay
+			position:absolute
+			top: 0px
+			left: 0px
+			width: 900px
+			height: 506px
+			background: url("/images/overlay.png")
 	// 	padding: y-padding x-padding
 	#world
-		border: 1px solid #eee
+		border: 0px solid #eee
+		background: url("/images/road-touched.jpg")
