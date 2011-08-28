@@ -14,9 +14,8 @@ class App
 		
 		socket.on 'sendWorld', (worldData) =>
 			@world = new World(worldData)
-			
 			@worldView = new WorldView(@world, '#world')
-			console.log(worldData)
+			
 		socket.on 'sendMyAvatar', (avatarId) =>
 			@me = @world.getActor avatarId
 			@me.movementBus = new Signal()
