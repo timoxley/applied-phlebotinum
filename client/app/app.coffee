@@ -5,7 +5,7 @@ AvatarController = require('./controllers/avatarcontroller').AvatarController
 
 class App 
 	constructor: ->
-		socket = io.connect('http://localhost');
+		socket = io.connect("http://#{window.location.hostname}");
 		socket.on 'sendWorld', (worldData) ->
 			@world = new World(worldData)
 			@worldView = new WorldView(@world, '#world')

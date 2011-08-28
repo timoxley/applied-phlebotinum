@@ -5,8 +5,6 @@ Client = require('./client').Client
 
 common = require '../common'
 
-now = require 'now'
-
 winston = common.winston
 
 class Engine
@@ -27,7 +25,8 @@ class Engine
 			console.log host.world.avatars
 			socket.emit 'sendWorld', host.world.serialize()
 	selectHost: =>
-		@host 
+		@host
+		
 		# socket.emit('news', { hello: 'world' });
 		# socket.on('my other event', function (data) {
 		#   console.log(data);
