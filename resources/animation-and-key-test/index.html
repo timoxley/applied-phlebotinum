@@ -1,0 +1,73 @@
+<html>
+<head>
+  <title>Test</title>
+</head>
+
+<body>
+  <canvas id="game" width="600" height="600">
+</body>
+
+<script type="text/javascript" src="./ocanvas-1.0.min.js"></script>
+<script type="text/javascript">
+  oCanvas.core.prototype.isKeyDown = function (key) {
+    return (this.keyboard.getKeysDown().indexOf(""+key) != -1);
+  };
+
+  var canvas = oCanvas.create({ canvas: '#game', background: '#ccc' });  
+  
+  // var human = canvas.display.sprite({
+  //   autostart: true,
+  //   x: 100,
+  //   y: 100,
+  //   origin: { x: 'center', y: 'center' },
+  //   image: 'images/male-01-idle.png',
+  //   generate: true,
+  //   width: 20,
+  //   height: 20,
+  //   direction: 'x',
+  //   duration: 1000
+  // });
+  // human.start();
+  
+  var human = canvas.display.sprite({
+    x: 200,
+    y: 100,
+    origin: { x: 'center', y: 'center' },
+    image: 'images/male-01-walk.png',
+    generate: true,
+    width: 20,
+    height: 20,
+    direction: 'x',
+    duration: 200
+  });
+  
+  canvas.addChild(human);
+  
+  canvas.setLoop(function () {
+    // TODO: check for no keys down (down further too)
+    human.stop();
+    
+    if (canvas.isKeyDown(canvas.keyboard.ARROW_UP)) {
+      human.start();
+      human.y -= 2;
+    }
+    if (canvas.isKeyDown(canvas.keyboard.ARROW_DOWN)) {
+      human.start();
+      human.y += 2;
+    }
+    if (canvas.isKeyDown(canvas.keyboard.ARROW_LEFT)) {
+      human.start();
+      human.x -= 2;
+    }
+    if (canvas.isKeyDown(canvas.keyboard.ARROW_RIGHT)) {
+      human.start();
+      human.x += 2;
+    }
+    // TODO: reset the animation
+    // } else {
+    //   human.stop();
+    //   human.frame = 2;
+    // }
+  }).start();
+</script>
+</html>
