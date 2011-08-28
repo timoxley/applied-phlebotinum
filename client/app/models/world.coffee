@@ -15,11 +15,8 @@ class World
 		@avatarAdded = new Signal()
 		@avatarRemvoved = new Signal()
 
-		@sendInitSignals()
-
-	sendInitSignals: =>
-		@avatarAdded.dispatch avatar for avatar of @avatars
-
+	init: =>
+		@addAvatar new Avatar avatarBase for avatarBase of @avatars
 
 	addUser: (userId) =>
 		@addAvatar new Avatar {userId}

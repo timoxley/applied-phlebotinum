@@ -2,6 +2,9 @@ class AvatarView
 	constructor: (@avatar, @canvas) ->
 		@avatar.changed.add =>
 			@render()
+
+		@render()
+		
 	render: =>
 		if not @displayElement?
 			@displayElement = @canvas.display.rectangle

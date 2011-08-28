@@ -8,6 +8,8 @@ module.exports =
 		now.getWorld (worldData) ->
 			world = new World(worldData)
 			@worldView = new WorldView(world, '#world')
+
+			world.init()
 			
 			#@avatarController = new AvatarController(test1, @worldView.canvas)
 #			
