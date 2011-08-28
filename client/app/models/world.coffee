@@ -1,7 +1,5 @@
-_ = require 'underscore'
-
 Avatar = require('./avatar').Avatar
-Zombie = require('./avatar').Zombie
+Zombie = require('./zombie').Zombie
 
 try
 	Signal = require("../../../lib/signals").Signal
@@ -10,38 +8,40 @@ catch err
 
 
 class World
-	constructor: ({@id, @height, @width, avatars}) ->
-		@avatarAdded = new Signal()
-		@avatarRemoved = new Signal()
-		@avatarChanged = new Signal()
+	constructor: ({@id, @height, @width, actors}) ->
+		@actorsAdded = new Signal()
+		@actorsRemoved = new Signal()
+		@actorsChanged = new Signal()
 
-		@avatars = {}
-		if avatars?
-			(console.log avatar) for id, avatar of avatars
-			(@addAvatar new Avatar(avatar)) for id, avatar of avatars
+		@actors = {}
+		if actors?
+			(console.log actor) for id, actor of actors
+			(@addActor @createActor actor) for id, actor of actors
 
-		@zombies = {}
-
-	addAvatar: (avatar) =>
-		@avatars[avatar.id] = avatar
-		@avatarAdded.dispatch avatar
-		avatar.changed.add =>
-			@avatarChanged.dispatch avatar
-		avatar.world = @
-		avatar
+	addActor: (actor) =>
+		@actors[actor.id] = actor
+		@actorsAdded.dispatch actor
+		actor.changed.add =>
+			@actorsChanged.dispatch actor
+		actor.world = @
+		actor
 		
-	removeAvatar: (id) =>
-		@avatarRemoved.dispatch @avatars[id]
-		delete @avatars[id]
+	removeActor: (id) =>
+		@actorsRemoved.dispatch @actors[id]
+		delete @actors[id]
 
-	addZombie: (zombie) =>
+	getActor: (id) =>
+		@actors[id] || null
 
-	removeZombie: (zombie) =>
-
+	createActor: (actor) ->
+		switch actor.type
+			when 'Avatar' then new Avatar(actor)
+			when 'Zombie' then new Zombie(actor)
+			else null
 
 	serialize: =>
 		out =
 			width: @width
 			height: @height
-			avatars: (avatar.serialize()) for id, avatar of @avatars  
+			actors: (actor.serialize()) for id, actor of @actors
 module.exports = {World}

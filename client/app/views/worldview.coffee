@@ -9,12 +9,12 @@ class WorldView
 		@canvas.width = @world.width
 		@canvas.height = @world.height
 		
-		@addAvatarView(new AvatarView(avatar, @canvas)) for id, avatar of @world.avatars
+		@addAvatarView(new AvatarView(actor, @canvas)) for id, actor of @world.actors
 		
-		@world.avatarAdded.add (avatar) =>
-			@addAvatarView new AvatarView(avatar, @canvas)
+		@world.actorsAdded.add (actor) =>
+			@addAvatarView new AvatarView(actor, @canvas)
 		
-		@world.avatarRemoved.add (avatar) =>
+		@world.actorsRemoved.add (avatar) =>
 			@removeAvatarView avatar
 		
 	addAvatarView: (avatarView) =>

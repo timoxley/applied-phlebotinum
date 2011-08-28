@@ -1,12 +1,12 @@
 winston = require 'winston'
 path = require 'path'
 
-
+appDir = path.normalize "#{__dirname}/.."
 
 module.exports =
 	winston: winston
-	appDir: path.normalize "#{__dirname}/.."
+	appDir: appDir
 	settings:
 		world:
-			width: 600
-			height: 600
+			width: 695
+			height: 605
