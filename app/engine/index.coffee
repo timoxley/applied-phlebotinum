@@ -9,8 +9,6 @@ now = require 'now'
 
 winston = common.winston
 
-sys = require 'sys'
-
 class Engine
 	constructor: (app) ->
 		everyone = now.initialize app
@@ -28,7 +26,8 @@ class Engine
 			
 
 		now.on 'disconnect', ->
-			console.log "Left : " + @now
+			host = that.hosts[0]
+			host.removeUser @user.clientId
 		
 
 		everyone.now.getWorld = (callback) ->

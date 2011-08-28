@@ -18,5 +18,7 @@ class AvatarView
 			@displayElement.x = @avatar.x
 			@displayElement.y = @avatar.y
 			@canvas.draw.redraw()
+	destroy: =>
+		@canvas.removeChild @displayElement
 module.exports =
 	AvatarView: AvatarView

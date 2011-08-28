@@ -13,7 +13,7 @@ class World
 		@avatars ?= {}
 		console.log "new World"
 		@avatarAdded = new Signal()
-		@avatarRemvoved = new Signal()
+		@avatarRemoved = new Signal()
 
 	init: =>
 		@addAvatar new Avatar avatarBase for avatarBase of @avatars
@@ -27,10 +27,9 @@ class World
 	addAvatar: (avatar) =>
 		@avatars[avatar.userId] = avatar
 		@avatarAdded.dispatch avatar
-
 	removeAvatar: (userId) =>
-		@avatarRemoved.dispatch avatar
+		@avatarRemoved.dispatch @avatars[userId]
+		@avatars[userId].destroy()
 		delete @avatars[userId]
-
-module.exports =
-	World: World
+		
+module.exports = {World}
