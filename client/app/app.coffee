@@ -3,6 +3,8 @@ WorldView = require('./views/worldview').WorldView
 Avatar = require('./models/avatar').Avatar
 AvatarController = require('./controllers/avatarcontroller').AvatarController
 
+_ = require 'underscore'
+
 try
 	Signal = require("../../../lib/signals").Signal
 catch err
@@ -22,15 +24,21 @@ class App
 		@socket.on 'sendMyAvatar', (avatarId) =>
 			@me = @world.getActor avatarId
 			@me.movementBus = new Signal()
-			@me.movementBus.add (avatar) =>
+			update = _.throttle (avatar) =>
+				console.log('updateAvatar')
 				@socket.emit 'updateAvatar',
 					x: avatar.x
 					y: avatar.y
+			, 250
+			@me.movementBus.add (avatar) =>
+				update(avatar)
 			@me.me = true
 			@me.changed.dispatch()
 			new AvatarController(@me, @worldView.canvas)
 		@socket.on 'updateActor', (data) =>
+			console.log('updateActor')
 			@world.getActor(data.id)?.update(data)
+
 		@socket.on 'newActor', (data) =>
 			@world.addActor @world.createActor(data)
 		@socket.on 'removeActor', (id) =>

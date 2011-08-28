@@ -1,13 +1,18 @@
+_ = require 'underscore'
+
 class AvatarView
-	constructor: (@actor, @canvas) ->		
+	constructor: (@actor, @canvas) ->
+		
 		@actor.changed.add (motion) =>
-			@render(motion)
+			@render()
+			
 		@direction = @actor.DOWN
 		unless @sprite_file?
 			@sprite_file = 'male-01-walk'
 		@render()
 		
 	render: (motion) =>
+		
 		if @actor.me and not @ellipse? and @displayElement
 			@ellipse = @canvas.display.ellipse
 				origin:
