@@ -8,7 +8,6 @@ class AvatarView
 		@render()
 		
 	render: (motion) =>
-		
 		if @actor.me and not @ellipse? and @displayElement
 			@ellipse = @canvas.display.ellipse
 				origin:
