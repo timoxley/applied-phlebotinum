@@ -18,10 +18,12 @@ class Engine
 		io = require('socket.io').listen(app)
 
 		io.sockets.on 'connection', (socket) =>
-			console.log socket
 			host = @selectHost()
 			client = host.socketConnect socket
-			
+
+			socket.on 'disconnect', (id) =>
+				host.socketDisconnect socket
+
 	selectHost: =>
 		@host
 		

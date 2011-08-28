@@ -17,6 +17,9 @@ class Client
 		@socket.on 'player-moved', (x, y) =>
 			@world.movePlayer @id, x, y
 
+		@socket.on 'zombie-killed', (id) =>
+			@world.killZombie id
+
 	destroy: =>
 		@world.removeAvatar @id
 

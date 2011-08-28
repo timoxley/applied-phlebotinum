@@ -9,7 +9,6 @@ class App
 		socket.on 'sendWorld', (worldData) ->
 			@world = new World(worldData)
 			@worldView = new WorldView(@world, '#world')
-			console.log(worldData)
 		    # socket.emit('my other event', { my: 'data' });
 
 

@@ -15,24 +15,18 @@ class World
 		@avatarMoved = new Signal()
 
 		@avatars = {}
-		console.log avatars
 		if avatars?
 			(console.log avatar) for id, avatar of avatars
 			(@addAvatar new Avatar(avatar)) for id, avatar of avatars
 		else
 			
-		console.log "new World"
-		console.log @avatars
-
 
 	addAvatar: (avatar) =>
-		console.log @
 		@avatars[avatar.id] = avatar
 		@avatarAdded.dispatch avatar
 		avatar
 	removeAvatar: (id) =>
 		@avatarRemoved.dispatch @avatars[id]
-		@avatars[id].destroy()
 		delete @avatars[id]
 
 	moveAvatar: (id, x, y) =>
@@ -40,8 +34,6 @@ class World
 		@avatarMoved.dispatch avatar
 
 	serialize: =>
-		console.log "@avatars:"
-		console.log @avatars
 		out =
 			width: @width
 			height: @height

@@ -18,20 +18,18 @@ class Host
 	socketConnect: (socket) =>
 		client = new Client socket, @world
 
-		console.log "client:"
-		console.log client
-
 		@clients[client.id] = client
 		client
 
 	socketDisconnect: (socket) =>
-		client = @getClient socket.id
-		client.destroy()
+		console.log 'DISCONNECTING SOCKET'
+		client = @getClient socket
+		client?.destroy()
 
 		delete @clients[socket.id]
 
-	getClient: (clientId) =>
-		@clients[clientId]
+	getClient: (socket) =>
+		@clients[socket.id]
 
 
 module.exports =
