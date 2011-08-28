@@ -4,6 +4,10 @@ catch err
 	Signal = require('signals').Signal
 
 class Actor
+	UP: 0
+	DOWN: 1
+	LEFT: 2
+	RIGHT: 3
 	constructor: ({@id, @x, @y, @health, @me}) ->
 		@health ?= 100
 		@changed = new Signal()
@@ -11,6 +15,7 @@ class Actor
 		@max_speed = 60
 		@min_movement = 3
 		@isMoving = false
+		@direction = Actor.DOWN
 	serialize: =>
 		out =
 			id: @id

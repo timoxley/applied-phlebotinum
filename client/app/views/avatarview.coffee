@@ -1,9 +1,8 @@
 class AvatarView
-	constructor: (@avatar, @canvas) ->
-		
+	constructor: (@avatar, @canvas) ->		
 		@avatar.changed.add (motion) =>
 			@render(motion)
-			
+		@direction = @avatar.DOWN
 		@render()
 		
 	render: (motion) =>
@@ -14,8 +13,10 @@ class AvatarView
 					y: 'center'
 				image: '/images/sprites/male-01-walk.png'
 				generate: true
-				width: 20
-				height: 20
+				width: 40
+				offset_x: 0
+				height: 40
+				offset_y: 40
 				direction: 'x'
 				duration: 200
 				
@@ -44,6 +45,10 @@ class AvatarView
 				@ellipse.x = @avatar.x
 				@ellipse.y = @avatar.y
 		if @avatar.isMoving isnt false
+			unless @direction == @avatar.direction
+				@direction = @avatar.direction
+				@displayElement.offset_y = @direction * @displayElement.height
+				@displayElement.init()
 			@displayElement.start()
 		else
 			@displayElement.stop()		
