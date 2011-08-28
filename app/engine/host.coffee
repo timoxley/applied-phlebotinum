@@ -20,7 +20,7 @@ class Host
 	socketDisconnect: (socket) =>
 		console.log 'DISCONNECTING SOCKET'
 		client = @getClient socket
-		client?.destroy()
+		client.destroy()
 		socket.broadcast.emit 'removeAvatar', client.avatar.id
 		delete @clients[client.id]
 
