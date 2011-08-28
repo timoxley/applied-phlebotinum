@@ -1,29 +1,36 @@
 AvatarView = require('./avatarview').AvatarView
+ZombieView = require('./zombieview').ZombieView
 
 
 class WorldView
 	constructor: (@world, @el) ->
-		@avatarViews = {}
+		@actorViews = {}
 		@canvas = oCanvas.create
 			canvas: @el
 		@canvas.width = @world.width
 		@canvas.height = @world.height
 		
-		@addAvatarView(new AvatarView(actor, @canvas)) for id, actor of @world.actors
+		@addActorView( @createActorView actor, @canvas ) for id, actor of @world.actors
 		
 		@world.actorsAdded.add (actor) =>
-			@addAvatarView new AvatarView(actor, @canvas)
+			@addActorView( @createActorView actor, @canvas )
 		
 		@world.actorsRemoved.add (avatar) =>
-			@removeAvatarView avatar
+			@removeActorView avatar
 		
-	addAvatarView: (avatarView) =>
-		@avatarViews[avatarView.avatar.id] = avatarView
-		
-	removeAvatarView: (avatar) =>
-		@avatarViews[avatar.id].destroy()
-		delete @avatarViews[avatar.id]
-		
+	addActorView: (actorView) =>
+		@actorViews[actorView.actor.id] = actorView
+
+	removeActorView: (actor) =>
+		@actorViews[actor.id].destroy()
+		delete @actorViews[actor.id]
+
+	createActorView: (actor, canvas) ->
+		switch actor.type
+			when 'Avatar' then new AvatarView(actor, canvas)
+			when 'Zombie' then new ZombieView(actor, canvas)
+			else null
+
 	render: =>
 		avatarView.render()
 		

@@ -1,8 +1,8 @@
 class AvatarView
-	constructor: (@avatar, @canvas) ->		
-		@avatar.changed.add (motion) =>
+	constructor: (@actor, @canvas) ->		
+		@actor.changed.add (motion) =>
 			@render(motion)
-		@direction = @avatar.DOWN
+		@direction = @actor.DOWN
 		@render()
 		
 	render: (motion) =>
@@ -20,10 +20,10 @@ class AvatarView
 				direction: 'x'
 				duration: 200
 				
-			@displayElement.x = @avatar.x
-			@displayElement.y = @avatar.y
+			@displayElement.x = @actor.x
+			@displayElement.y = @actor.y
 
-			if @avatar.me isnt false
+			if @actor.me isnt false
 				@ellipse = @canvas.display.ellipse
 					origin:
 						x: 'center'
@@ -32,21 +32,21 @@ class AvatarView
 					radius_y: 6
 					fill: "rgba(255, 0, 0, 0.05)"
 					stroke: "1px rgba(255, 0, 0, 0.1)"
-				@ellipse.x = @avatar.x
-				@ellipse.y = @avatar.y
+				@ellipse.x = @actor.x
+				@ellipse.y = @actor.y
 				@canvas.addChild @ellipse
 			@canvas.addChild @displayElement
 
 
 		else
-			@displayElement.x = @avatar.x
-			@displayElement.y = @avatar.y
+			@displayElement.x = @actor.x
+			@displayElement.y = @actor.y
 			if @ellipse?
-				@ellipse.x = @avatar.x
-				@ellipse.y = @avatar.y
-		if @avatar.isMoving isnt false
-			unless @direction == @avatar.direction
-				@direction = @avatar.direction
+				@ellipse.x = @actor.x
+				@ellipse.y = @actor.y
+		if @actor.isMoving isnt false
+			unless @direction == @actor.direction
+				@direction = @actor.direction
 				@displayElement.offset_y = @direction * @displayElement.height
 				@displayElement.init()
 			@displayElement.start()
