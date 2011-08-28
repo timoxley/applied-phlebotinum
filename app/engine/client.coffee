@@ -13,7 +13,8 @@ class Client
 
 		# Send current game state to client
 		socket.emit 'sendWorld', @world.serialize()
-
+		socket.emit 'sendPlayer', @socket.id
+		
 		@socket.on 'player-moved', (x, y) =>
 			@world.movePlayer @id, x, y
 

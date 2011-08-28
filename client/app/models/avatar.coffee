@@ -7,17 +7,10 @@ catch err
 class Avatar
 	constructor: ({@id, @x, @y}) ->
 		@changed = new Signal()
-		console.log(arguments)
-		console.log(@)
 	serialize: =>
-		console.log 'serialise:'
 		out =
 			id: @id
 			x: @x
 			y: @y
-		console.log out
-		out
-
-
 module.exports =
 	Avatar: Avatar
