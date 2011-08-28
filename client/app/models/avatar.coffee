@@ -12,5 +12,13 @@ class Avatar
 			id: @id
 			x: @x
 			y: @y
+	move: ({x, y}) =>
+		if x?
+			@x += x
+		if y?
+			@y += y
+		
+		@movementBus.dispatch @
+		@changed.dispatch()
 module.exports =
 	Avatar: Avatar
