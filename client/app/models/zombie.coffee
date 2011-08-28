@@ -12,12 +12,16 @@ class Zombie extends Actor
 	###
 	setTarget: (@target) =>
 
+	shoot: (damage) =>
+		@health -= damage
+
+		if @health <= 0
+			@died.dispatch
+
 	serialize: =>
-		out =
-			id: @id
-			x: @x
-			y: @y
-			type: @type
-			target: @target
+		out = super()
+		out.target = @target
+
+		out
 
 module.exports = {Zombie}

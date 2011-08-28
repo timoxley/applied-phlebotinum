@@ -10,27 +10,27 @@ catch err
 
 class App
 	constructor: ->
-		socket = io.connect "http://#{window.location.hostname}"
+		@socket = io.connect "http://#{window.location.hostname}"
 		
-		socket.on 'sendWorld', (worldData) =>
+		@socket.on 'sendWorld', (worldData) =>
 			@world = new World(worldData)
 			@worldView = new WorldView(@world, '#world')
 			
-		socket.on 'sendMyAvatar', (avatarId) =>
+		@socket.on 'sendMyAvatar', (avatarId) =>
 			@me = @world.getActor avatarId
 			@me.movementBus = new Signal()
 			@me.movementBus.add (avatar) =>
-				socket.emit 'updateAvatar',
+				@socket.emit 'updateAvatar',
 					x: avatar.x
 					y: avatar.y
 			@me.me = true
 			@me.changed.dispatch()
 			new AvatarController(@me, @worldView.canvas)
-		socket.on 'updateActor', (data) =>
+		@socket.on 'updateActor', (data) =>
 			@world.getActor(data.id)?.update(data)
-		socket.on 'newActor', (data) =>
+		@socket.on 'newActor', (data) =>
 			@world.addActor @world.createActor(data)
-		socket.on 'removeActor', (id) =>
+		@socket.on 'removeActor', (id) =>
 			@world.removeActor(id)
 	
 module.exports = {App}

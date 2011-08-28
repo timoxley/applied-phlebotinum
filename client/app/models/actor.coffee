@@ -21,11 +21,11 @@ class Actor
 		@isMoving = false
 		@direction = Actor.DOWN
 	serialize:  =>
-		console.log 'serialising actor'
 		out =
 			id: @id
 			x: @x
 			y: @y
+			health: @health
 			type: @type
 			
 	move: ({x, y}) =>
