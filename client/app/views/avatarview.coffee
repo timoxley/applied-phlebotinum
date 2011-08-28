@@ -3,15 +3,34 @@ class AvatarView
 		@actor.changed.add (motion) =>
 			@render(motion)
 		@direction = @actor.DOWN
+		unless @sprite_file?
+			@sprite_file = 'male-01-walk'
 		@render()
 		
 	render: (motion) =>
+		
+		if @actor.me and not @ellipse? and @displayElement
+			@ellipse = @canvas.display.ellipse
+				origin:
+					x: 'center'
+					y: -18
+				radius_x: 20
+				radius_y: 8
+				fill: "rgba(100, 255, 100, 0.2)"
+				stroke: "1px rgba(100, 255, 100, 0.3)"
+			@canvas.removeChild @displayElement
+			@canvas.addChild @ellipse
+			@canvas.addChild @displayElement
+		if @ellipse?
+			@ellipse.x = @actor.x
+			@ellipse.y = @actor.y
+
 		if not @displayElement?
 			@displayElement = @canvas.display.sprite
 				origin:
 					x: 'center'
 					y: 'center'
-				image: '/images/sprites/male-01-walk.png'
+				image: '/images/sprites/' + @sprite_file + '.png'
 				generate: true
 				width: 40
 				offset_x: 0
@@ -22,25 +41,14 @@ class AvatarView
 				
 			@displayElement.x = @actor.x
 			@displayElement.y = @actor.y
-
-			if @actor.me isnt false
-				@ellipse = @canvas.display.ellipse
-					origin:
-						x: 'center'
-						y: -9
-					radius_x: 15
-					radius_y: 6
-					fill: "rgba(255, 0, 0, 0.05)"
-					stroke: "1px rgba(255, 0, 0, 0.1)"
-				@ellipse.x = @actor.x
-				@ellipse.y = @actor.y
-				@canvas.addChild @ellipse
+			
 			@canvas.addChild @displayElement
 
 
 		else
 			@displayElement.x = @actor.x
 			@displayElement.y = @actor.y
+			
 			if @ellipse?
 				@ellipse.x = @actor.x
 				@ellipse.y = @actor.y
@@ -51,7 +59,7 @@ class AvatarView
 				@displayElement.init()
 			@displayElement.start()
 		else
-			@displayElement.stop()		
+			@displayElement.stop()	
 	destroy: =>
 		@canvas.removeChild @displayElement
 
