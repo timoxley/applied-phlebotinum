@@ -41,6 +41,13 @@ class World
 			when 'Zombie' then new Zombie(actor)
 			else null
 
+	killZombie: (zombieId) ->
+		zombie = @getActor zombieId
+		if zombie
+			targetingClient = @getActor zombie.target
+			if targetingClient
+				targetingClient.activeZombies -= 1
+
 	serialize: =>
 		out =
 			width: @width
