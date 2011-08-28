@@ -30,6 +30,10 @@ head(data-template-set='html5-reset')
 		var App = require('./app').App
 		$(function() {
 			var app = new App()
+
+			$('#overlay').click(function(event) {
+				$('#world').trigger('click', event);
+			});
 		})
 body
 	!=partial('header', {object: this, as: 'global'})
