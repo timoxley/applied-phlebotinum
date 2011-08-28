@@ -1,5 +1,5 @@
 (function() {
-  var app, appDir, coffee, common, directoryExists, engine, everyone, express, fs, http, nib, nko, now, package, path, stitch, stylus, winston;
+  var Engine, app, appDir, coffee, common, directoryExists, engine, express, fs, http, nib, nko, package, path, stitch, stylus, winston;
   http = require('http');
   nko = require('nko')('ahE2gHoOKLxdrUI0');
   coffee = require('coffee-script');
@@ -12,6 +12,7 @@
   path = require('path');
   stylus = require('stylus');
   nib = require('nib');
+  Engine = require('./app/engine').Engine;
   directoryExists = function(dir) {
     try {
       fs.statSync(dir);
@@ -21,7 +22,7 @@
     }
   };
   package = stitch.createPackage({
-    paths: ["" + appDir + "/client/app", "" + appDir + "/client/app/", path.resolve(require.resolve('eventemitter2'), '..')]
+    paths: ["" + appDir + "/client/app", "" + appDir + "/client/app/", "" + appDir + "/lib/", path.resolve(require.resolve('underscore'), '..')]
   });
   package.compile(function(err, source) {
     var destDir;
@@ -63,20 +64,7 @@
     app.use(express.logger());
     return app.use(express.static("" + appDir + "/public"));
   });
-  engine = require('./app/engine');
-  engine.newGame();
+  engine = new Engine(app);
   app.listen(parseInt(process.env.PORT) || 7777);
   winston.info('Listening on ' + app.address().port);
-  now = require('now');
-  everyone = now.initialize(app);
-  everyone.now.getWorld = function() {
-    this.now.world = 5;
-    return this.now.receiveWorld();
-  };
-  now.on('connect', function() {
-    return winston.info('connected: ' + this.user.clientId);
-  });
-  now.on('disconnect', function() {
-    return console.log("Left : " + this.now);
-  });
 }).call(this);

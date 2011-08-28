@@ -1,6 +1,10 @@
 class AvatarView
 	constructor: (@avatar, @canvas) ->
-		console.log "new avatar view"
+		@avatar.changed.add =>
+			@render()
+
+		@render()
+		
 	render: =>
 		if not @displayElement?
 			@displayElement = @canvas.display.rectangle
@@ -14,5 +18,7 @@ class AvatarView
 			@displayElement.x = @avatar.x
 			@displayElement.y = @avatar.y
 			@canvas.draw.redraw()
+	destroy: =>
+		@canvas.removeChild @displayElement
 module.exports =
 	AvatarView: AvatarView

@@ -1,14 +1,23 @@
-EventEmitter2 = require('eventemitter2').EventEmitter2
-World = require('./models/world').World
 
-class Avatar extends EventEmitter2
-	constructor: (@name) ->
-		console.log "Avatar Created: #{name}"
-		@x = Math.floor(Math.random() * 60) * 10
-		@y = Math.floor(Math.random() * 60) * 10
+try
+	Signal = require("../../../lib/signals").Signal
+catch err
+	Signal = require('signals').Signal
 
-	changed: =>
-		@emit 'avatar.change'
-	
+class Avatar
+	constructor: ({@id, @x, @y}) ->
+		@changed = new Signal()
+		console.log(arguments)
+		console.log(@)
+	serialize: =>
+		console.log 'serialise:'
+		out =
+			id: @id
+			x: @x
+			y: @y
+		console.log out
+		out
+
+
 module.exports =
 	Avatar: Avatar

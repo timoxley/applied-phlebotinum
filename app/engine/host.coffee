@@ -1,16 +1,34 @@
 common = require '../common'
-#now = common.now
 settings = common.settings
 appDir = common.appDir
 
+now = require 'now'
+Client = require('./client').Client
 World = require("#{appDir}/client/app/models/world").World
 
-#everyone = common.everyone
+#Signal = require('signals').Signal
 
 class Host
 	constructor: (@id) ->
-#    @group = now.getGroup @id
-#    @world = new World settings.world.width, settings.world.height
+		@world = new World settings.world
+		@world.avatarMoved.add (avatar) ->
+		@clients = {}
+	socketConnect: (socket) =>
+		client = new Client socket, @world
+
+		@clients[client.id] = client
+		client
+
+	socketDisconnect: (socket) =>
+		console.log 'DISCONNECTING SOCKET'
+		client = @getClient socket
+		client?.destroy()
+
+		delete @clients[socket.id]
+
+	getClient: (socket) =>
+		@clients[socket.id]
+
 
 module.exports =
 	Host: Host

@@ -1,12 +1,42 @@
-EventEmitter2 = require('eventemitter2').EventEmitter2
+_ = require 'underscore'
 
-class World extends EventEmitter2
-	constructor: (@height, @width) ->
-		@avatars = []
+Avatar = require('./avatar').Avatar
+
+try
+	Signal = require("../../../lib/signals").Signal
+catch err
+	Signal = require('signals').Signal
+
+
+class World
+	constructor: ({@id, @height, @width, avatars}) ->
+		@avatarAdded = new Signal()
+		@avatarRemoved = new Signal()
+		@avatarMoved = new Signal()
+
+		@avatars = {}
+		if avatars?
+			(console.log avatar) for id, avatar of avatars
+			(@addAvatar new Avatar(avatar)) for id, avatar of avatars
+		else
+			
+
 	addAvatar: (avatar) =>
-		@avatars.push avatar
-		@emit 'avatar.added', avatar
+		@avatars[avatar.id] = avatar
+		@avatarAdded.dispatch avatar
 		avatar
 		
-module.exports =
-	World: World
+	removeAvatar: (id) =>
+		@avatarRemoved.dispatch @avatars[id]
+		delete @avatars[id]
+
+	moveAvatar: (id, x, y) =>
+		avatar = @avatars[id]
+		@avatarMoved.dispatch avatar
+
+	serialize: =>
+		out =
+			width: @width
+			height: @height
+			avatars: (avatar.serialize()) for id, avatar of @avatars  
+module.exports = {World}
