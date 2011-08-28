@@ -10,15 +10,14 @@ catch err
 
 class App 
 	constructor: ->
-		socket = io.connect("http://#{window.location.hostname}")
-		
+		socket = io.connect "http://#{window.location.hostname}"
 		
 		socket.on 'sendWorld', (worldData) =>
 			@world = new World(worldData)
 			
 			@worldView = new WorldView(@world, '#world')
 			console.log(worldData)
-		socket.on 'sendAvatar', (avatarId) =>
+		socket.on 'sendMyAvatar', (avatarId) =>
 			@me = @world.avatars[avatarId]
 			@me.movementBus = new Signal()
 			@me.movementBus.add (avatar) =>
@@ -29,9 +28,11 @@ class App
 					y: avatar.y
 			new AvatarController(@me, @worldView.canvas)
 		socket.on 'updateAvatar', (data) =>
-			@world.avatars[data.id].update(data)
-			
-		new AvatarController(@me, @worldView.canvas)
+			@world.avatars[data.id]?.update(data)
+		socket.on 'newAvatar', (data) =>
+			@world.addAvatar new Avatar(data)
+		socket.on 'removeAvatar', (id) =>
+			@world.removeAvatar(id)
 	
 module.exports = {App}
 

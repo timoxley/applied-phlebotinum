@@ -25,7 +25,7 @@ class World
 		@avatars[avatar.id] = avatar
 		@avatarAdded.dispatch avatar
 		avatar.changed.add =>
-			@avatarChanged.dispach avatar
+			@avatarChanged.dispatch avatar
 
 		avatar
 		
