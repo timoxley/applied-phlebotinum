@@ -24,6 +24,7 @@ class App
 					x: avatar.x
 					y: avatar.y
 			@me.me = true
+			@me.changed.dispatch()
 			new AvatarController(@me, @worldView.canvas)
 		socket.on 'updateActor', (data) =>
 			@world.getActor(data.id)?.update(data)
