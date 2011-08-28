@@ -16,10 +16,15 @@ class World
 		@avatarRemoved = new Signal()
 
 	init: =>
-		@addAvatar new Avatar avatarBase for avatarBase of @avatars
+		console.log @avatars
+		@addAvatar new Avatar avatarBase for id, avatarBase of @avatars
 
 	addUser: (userId) =>
-		@addAvatar new Avatar {userId}
+		console.log 'Adding User'
+		x = Math.floor(Math.random() * 60) * 10
+		y = Math.floor(Math.random() * 60) * 10
+
+		@addAvatar new Avatar {userId, x, y}
 
 	removeUser: (userId) =>
 		@removeAvatar userId
