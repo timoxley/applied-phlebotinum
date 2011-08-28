@@ -8,25 +8,15 @@ winston = common.winston
 
 class Engine
 	constructor: (app) ->
-		@hosts = {}
-		@host = new Host @hosts.length
-		@hosts[@host.id] = @host
+		@host = new Host 0
 		@clients = {}
 		io = require('socket.io').listen(app)
 
 		io.sockets.on 'connection', (socket) =>
-			host = @selectHost()
-			client = host.socketConnect socket
+			client = @host.socketConnect socket
 
 			socket.on 'disconnect', (id) =>
-				host.socketDisconnect socket
-				
-	selectHost: (id) =>
-		if @clients[id]?
-			@clients[id]
-		else
-			@clients[id] = @host
-			@host
+				@host.socketDisconnect socket
 		
 		# socket.emit('news', { hello: 'world' });
 		# socket.on('my other event', function (data) {

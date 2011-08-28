@@ -11,7 +11,10 @@ catch err
 class App
 	constructor: ->
 		@socket = io.connect "http://#{window.location.hostname}"
-		
+
+		@socket.on 'disconnect', =>
+			@world.removeActor(@socket.id)
+
 		@socket.on 'sendWorld', (worldData) =>
 			@world = new World(worldData)
 			@worldView = new WorldView(@world, '#world')
