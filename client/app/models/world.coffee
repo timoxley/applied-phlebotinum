@@ -9,32 +9,38 @@ catch err
 
 
 class World
-	constructor: ({@height, @width, @avatars}) ->
+	constructor: ({@id, @height, @width, @avatars}) ->
 		@avatars ?= {}
 		console.log "new World"
 		@avatarAdded = new Signal()
 		@avatarRemoved = new Signal()
 
-	init: =>
-		@addAvatar new Avatar avatarBase for id, avatarBase of @avatars
+	# addUser: (client) =>
+	# 	console.log 'Adding User'
+	# 	
 
-	addUser: (userId) =>
-		console.log 'Adding User'
-		x = Math.floor(Math.random() * 60) * 10
-		y = Math.floor(Math.random() * 60) * 10
-
-		@addAvatar new Avatar {userId, x, y}
-
-	removeUser: (userId) =>
-		@removeAvatar userId
+	# 
+	# 	@addAvatar new Avatar {userId, x, y}
+	# 
+	# removeUser: (userId) =>
+	# 	@removeAvatar userId
 
 	addAvatar: (avatar) =>
-		@avatars[avatar.userId] = avatar
+		@avatars[avatar.id] = avatar
+		
+		x = Math.floor(Math.random() * 60) * 10
+		y = Math.floor(Math.random() * 60) * 10
+		avatar.x = x
+		avatar.y = y
 		@avatarAdded.dispatch avatar
 		avatar
-	removeAvatar: (userId) =>
-		@avatarRemoved.dispatch @avatars[userId]
-		@avatars[userId].destroy()
-		delete @avatars[userId]
-		
+	removeAvatar: (id) =>
+		@avatarRemoved.dispatch @avatars[id]
+		@avatars[id].destroy()
+		delete @avatars[id]
+	serialize: =>
+		console.log "@avatars:"
+		console.log @avatars
+		out =
+			avatars: avatar.serialize() for id, avatar of @avatars  
 module.exports = {World}

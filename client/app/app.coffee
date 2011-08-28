@@ -5,15 +5,15 @@ AvatarController = require('./controllers/avatarcontroller').AvatarController
 
 class App 
 	constructor: ->
-		that = this
-		now.getWorld (worldData) ->
-			that.world = new World(worldData)
-			that.worldView = new WorldView(world, '#world')
-			
+		socket = io.connect('http://localhost');
+		socket.on 'sendWorld', (worldData) ->
+			@world = new World(worldData)
+			@worldView = new WorldView(world, '#world')
+			console.log(data)
+		    # socket.emit('my other event', { my: 'data' });
 
-			
-			#@avatarController = new AvatarController(test1, @worldView.canvas)
-		now.getAvatar (avatar) ->
-			that.addAvatar new Avatar(avatar)
+
+		# now.getAvatar (avatar) ->
+		# 	that.addAvatar new Avatar(avatar)
 module.exports = {App}
 

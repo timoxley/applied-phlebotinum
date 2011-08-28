@@ -11,32 +11,27 @@ winston = common.winston
 
 class Engine
 	constructor: (app) ->
-		everyone = now.initialize app
-		
-		@hosts = []
-		@hosts.push new Host @hosts.length, everyone
-		that = @
-		
-		now.on 'connect', ->
-			#availableHosts = host for host in hosts when host.notFull()
-			# host = availableHosts[Math.floor(Math.random(availableHosts.length))] unless availableHosts.length == 0
-			winston.info 'connected: '+@user.clientId
-			host = that.hosts[0]
-			avatar = host.addUser @user.clientId
-			
+		@hosts = {}
+		@host = new Host @hosts.length
+		@hosts[@host.id] = @host
+		# 
+		# host.newClient.add (client) ->
+		# 	socket
 
-		now.on 'disconnect', ->
-			host = that.hosts[0]
-			host.removeUser @user.clientId
-		
-		
-		everyone.now.getWorld = (callback) ->
-			@now.world = that.hosts[0].world
-			callback @now.world
-			
-		everyone.now.clientReady = (callback) ->
-			@now.world = that.hosts[0].world
-			callback @now.avatar
+		io = require('socket.io').listen(app)
+
+		io.sockets.on 'connection', (socket) =>
+			console.log socket
+			host = @selectHost()
+			host.addClient new Client(socket)
+			console.log host
+			socket.emit 'sendWorld', host.world.serialize()
+			# host.addClient()
+	selectHost: =>
+		@host 
+		# socket.emit('news', { hello: 'world' });
+		# socket.on('my other event', function (data) {
+		#   console.log(data);
 
 module.exports =
 	Engine: Engine

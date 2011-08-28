@@ -11,14 +11,14 @@ head(data-template-set='html5-reset')
 	link(rel='stylesheet', href='/stylesheets/reset.css')
 	link(rel='stylesheet', href='/stylesheets/style.css')
 
-	script(src='/nowjs/now.js') 
+	script(src='/socket.io/socket.io.js') 
 	script(src='/scripts/jquery.js') 
 	script(src='/scripts/ocanvas.js')
 	script(src='/scripts/application.js')
 
 	script
 		var App = require('./app').App
-		now.ready(function() {
+		$(function() {
 			var app = new App()
 		})
 	

@@ -1,7 +1,5 @@
 class Client
-	constructor: (@id) ->
-		# Do stuff
-		
+	constructor: (@socket) ->
+		@id = @socket.id
 
-module.exports =
-	Client: Client
+module.exports = {Client}
