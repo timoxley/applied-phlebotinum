@@ -11,7 +11,9 @@ World = require("#{appDir}/client/app/models/world").World
 class Host
 	constructor: (@id) ->
 		@world = new World settings.world
-		@world.avatarMoved.add (avatar) ->
+		@world.avatarChange.add (avatar) ->
+			@broadcast avatar.id, 'updateAvatar', avatar.serialize()
+
 		@clients = {}
 	socketConnect: (socket) =>
 		client = new Client socket, @world
@@ -29,7 +31,8 @@ class Host
 	getClient: (socket) =>
 		@clients[socket.id]
 
-	broadcast: (from, event, callback) =>
+	broadcast: (from, event, arguments) =>
+		client.emitEvent event, arguments for id, client of @clients when id not from
 
 
 

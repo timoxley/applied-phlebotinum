@@ -12,7 +12,7 @@ class World
 	constructor: ({@id, @height, @width, avatars}) ->
 		@avatarAdded = new Signal()
 		@avatarRemoved = new Signal()
-		@avatarMoved = new Signal()
+		@avatarChanged = new Signal()
 
 		@avatars = {}
 		if avatars?
@@ -24,6 +24,9 @@ class World
 	addAvatar: (avatar) =>
 		@avatars[avatar.id] = avatar
 		@avatarAdded.dispatch avatar
+		avatar.changed.add =>
+			@avatarChanged.dispach avatar
+
 		avatar
 		
 		

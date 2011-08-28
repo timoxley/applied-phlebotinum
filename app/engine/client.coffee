@@ -22,6 +22,9 @@ class Client
 		@socket.on 'zombie-killed', (id) =>
 			@world.killZombie id
 
+	emitEvent: (event, arguments)=>
+		@socket.emit event, arguments
+
 	destroy: =>
 		@world.removeAvatar @id
 
