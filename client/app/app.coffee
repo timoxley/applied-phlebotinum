@@ -17,8 +17,18 @@ class App
 			@world = new World(worldData)
 			
 			@worldView = new WorldView(@world, '#world')
-
-		socket.on 'sendPlayer', (avatarId) =>
+			console.log(worldData)
+		socket.on 'sendAvatar', (avatarId) =>
+			@me = @world.avatars[avatarId]
+			@me.movementBus = new Signal()
+			@me.movementBus.add (avatar) =>
+				console.log 'moved:'
+				console.log avatar
+				socket.emit 'moveAvatar',
+					x: avatar.x,
+					y: avatar.y
+			new AvatarController(@me, @worldView.canvas)
+		socket.on 'updateAvatars', (avatarId) =>
 			@me = @world.avatars[avatarId]
 			@me.movementBus = new Signal()
 			@me.movementBus.add (avatar) =>
@@ -28,6 +38,6 @@ class App
 					x: avatar.x,
 					y: avatar.y
 			new AvatarController(@me, @worldView.canvas)
-
+	
 module.exports = {App}
 
