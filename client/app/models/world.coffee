@@ -1,6 +1,7 @@
 _ = require 'underscore'
 
 Avatar = require('./avatar').Avatar
+Zombie = require('./avatar').Zombie
 
 try
 	Signal = require("../../../lib/signals").Signal
@@ -18,8 +19,8 @@ class World
 		if avatars?
 			(console.log avatar) for id, avatar of avatars
 			(@addAvatar new Avatar(avatar)) for id, avatar of avatars
-		else
-			
+
+		@zombies = {}
 
 	addAvatar: (avatar) =>
 		@avatars[avatar.id] = avatar
@@ -32,6 +33,11 @@ class World
 	removeAvatar: (id) =>
 		@avatarRemoved.dispatch @avatars[id]
 		delete @avatars[id]
+
+	addZombie: (zombie) =>
+
+	removeZombie: (zombie) =>
+
 
 	serialize: =>
 		out =
