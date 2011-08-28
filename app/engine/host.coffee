@@ -7,7 +7,7 @@ now = require 'now'
 World = require("#{appDir}/client/app/models/world").World
 
 class Host
-	constructor: (@id) ->
+	constructor: (@id, @everyone) ->
 		@group = now.getGroup @id
 		@world = new World settings.world
 		

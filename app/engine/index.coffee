@@ -14,7 +14,7 @@ class Engine
 		everyone = now.initialize app
 		
 		@hosts = []
-		@hosts.push new Host @hosts.length
+		@hosts.push new Host @hosts.length, everyone
 		that = @
 		
 		now.on 'connect', ->
@@ -22,18 +22,21 @@ class Engine
 			# host = availableHosts[Math.floor(Math.random(availableHosts.length))] unless availableHosts.length == 0
 			winston.info 'connected: '+@user.clientId
 			host = that.hosts[0]
-			host.addUser @user.clientId
+			avatar = host.addUser @user.clientId
 			
 
 		now.on 'disconnect', ->
 			host = that.hosts[0]
 			host.removeUser @user.clientId
 		
-
+		
 		everyone.now.getWorld = (callback) ->
 			@now.world = that.hosts[0].world
 			callback @now.world
-
+			
+		everyone.now.clientReady = (callback) ->
+			@now.world = that.hosts[0].world
+			callback @now.avatar
 
 module.exports =
 	Engine: Engine

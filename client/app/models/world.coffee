@@ -16,7 +16,6 @@ class World
 		@avatarRemoved = new Signal()
 
 	init: =>
-		console.log @avatars
 		@addAvatar new Avatar avatarBase for id, avatarBase of @avatars
 
 	addUser: (userId) =>
@@ -32,6 +31,7 @@ class World
 	addAvatar: (avatar) =>
 		@avatars[avatar.userId] = avatar
 		@avatarAdded.dispatch avatar
+		avatar
 	removeAvatar: (userId) =>
 		@avatarRemoved.dispatch @avatars[userId]
 		@avatars[userId].destroy()
