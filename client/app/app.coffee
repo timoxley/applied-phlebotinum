@@ -27,7 +27,7 @@ class App
 					x: avatar.x
 					y: avatar.y
 			new AvatarController(@me, @worldView.canvas)
-		socket.on 'updateAvatar', (data) =>
+		socket.on 'updateActor', (data) =>
 			@world.getActor(data.id)?.update(data)
 		socket.on 'newAvatar', (data) =>
 			@world.addActor new Avatar(data)

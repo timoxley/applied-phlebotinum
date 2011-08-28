@@ -24,7 +24,7 @@ class Client
 
 		@socket.on 'updateAvatar', (data) =>
 			@avatar.update data
-			@socket.broadcast.emit 'updateAvatar', @avatar.serialize()
+			@socket.broadcast.emit 'updateActor', @avatar.serialize()
 	
 		@socket.on 'zombie-killed', (id) =>
 			@world.killZombie id
