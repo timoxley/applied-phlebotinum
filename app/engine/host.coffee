@@ -11,7 +11,6 @@ class Host
 		@clients = {}
 
 	socketConnect: (socket) =>
-		console.log socket
 		client = new Client socket, @world
 		@clients[client.id] = client
 		socket.broadcast.emit 'newAvatar', client.avatar.serialize()
@@ -21,7 +20,7 @@ class Host
 		console.log 'DISCONNECTING SOCKET'
 		client = @getClient socket
 		client.destroy()
-		socket.broadcast.emit 'removeAvatar', client.avatar.id
+		socket.broadcast.emit 'removeActor', client.avatar.id
 		delete @clients[client.id]
 
 	getClient: (socket) =>

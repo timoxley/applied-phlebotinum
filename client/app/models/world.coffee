@@ -13,9 +13,11 @@ class World
 		@actorsRemoved = new Signal()
 		@actorsChanged = new Signal()
 
+		console.log 'logging actors: '
+		console.log actors
+		
 		@actors = {}
 		if actors?
-			(console.log actor) for id, actor of actors
 			(@addActor @createActor actor) for id, actor of actors
 
 	addActor: (actor) =>
@@ -44,4 +46,5 @@ class World
 			width: @width
 			height: @height
 			actors: (actor.serialize()) for id, actor of @actors
+			
 module.exports = {World}

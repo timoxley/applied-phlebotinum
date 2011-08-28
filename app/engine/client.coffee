@@ -33,14 +33,15 @@ class Client
 			@world.killZombie id
 
 	assignZombies: =>
-		@assignZombie() for num in [0..@assignedZombies]
+		@assignZombie() for num in [1..@assignedZombies]
 
 	assignZombie: =>
-		x = Math.floor(Math.random() * 60) * 10
-		y = Math.floor(Math.random() * 60) * 10
+		x = Math.floor(Math.random() * 200) + (common.settings.world.width / 2) - (200 / 2)
+		y = Math.floor(Math.random() * 150) + (common.settings.world.height / 2) - (150 / 2)
+		id = _.uniqueId(['zombie_'])
 
-		zombie = new Zombie _.uniqueId(['zombie_']), x, y
-		zombie.changeTarget @avatar.id
+		zombie = new Zombie {id, x, y}
+		zombie.setTarget @avatar.id
 
 		@world.addActor zombie
 
