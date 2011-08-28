@@ -29,7 +29,6 @@ class World
 
 		avatar
 		
-		
 	removeAvatar: (id) =>
 		@avatarRemoved.dispatch @avatars[id]
 		delete @avatars[id]
