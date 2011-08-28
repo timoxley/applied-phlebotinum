@@ -11,7 +11,16 @@ class Engine
 		@host = new Host 0
 		@clients = {}
 		io = require('socket.io').listen(app)
-
+		io.enable 'browser client minification'
+		io.enable 'browser client etag'
+		io.set 'log level', 1
+		io.set 'transports', [
+			'websocket'
+			'flashsocket'
+			'htmlfile'
+			'xhr-polling'
+			'jsonp-polling'
+		]
 		io.sockets.on 'connection', (socket) =>
 			client = @host.socketConnect socket
 
