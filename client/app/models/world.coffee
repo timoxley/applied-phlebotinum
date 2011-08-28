@@ -25,7 +25,7 @@ class World
 		@actorsAdded.dispatch actor
 		actor.changed.add =>
 			@actorsChanged.dispatch actor
-
+		actor.world = @
 		actor
 		
 	removeActor: (id) =>

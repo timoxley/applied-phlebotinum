@@ -1,28 +1,43 @@
 class AvatarController
 	constructor: (@avatar, @canvas) ->
-		step = 1000
+		@canvas.isKeyDown = (key) =>
+			@canvas.keyboard.getKeysDown().indexOf(String(key)) != -1
+
+		@canvas.keyboard.W = 87
+		@canvas.keyboard.S = 83
+		@canvas.keyboard.A = 65
+		@canvas.keyboard.D = 68
+		
+		step = 30
 		@stepSize = @avatar.max_speed * step/1000
 		timeout = undefined
+		
+		@canvas.setLoop =>
+			if canvas.isKeyDown(@canvas.keyboard.ARROW_UP) or canvas.isKeyDown(@canvas.keyboard.W)
+				avatar.move
+					y: -@stepSize
+			if canvas.isKeyDown(@canvas.keyboard.ARROW_DOWN) or canvas.isKeyDown(@canvas.keyboard.S)
+				avatar.move
+					y: @stepSize
+			if canvas.isKeyDown(@canvas.keyboard.ARROW_LEFT) or canvas.isKeyDown(@canvas.keyboard.A)
+				avatar.move
+					x: -@stepSize
+			if canvas.isKeyDown(@canvas.keyboard.ARROW_RIGHT) or canvas.isKeyDown(@canvas.keyboard.D)
+				avatar.move
+					x: @stepSize
+		.start()
 		@canvas.keyboard.addEvent 'keyup', (event) =>
 			@avatar.stop()
 		@canvas.keyboard.addEvent 'keydown', (event) =>
 			switch event.keyCode
 				when @canvas.keyboard.ARROW_UP
 					event.preventDefault()
-					@avatar.move
-						y: -@stepSize
 				when @canvas.keyboard.ARROW_DOWN
 					event.preventDefault()	
-					@avatar.move
-						y:@stepSize 
 				when @canvas.keyboard.ARROW_LEFT
 					event.preventDefault()
-					@avatar.move
-						x: -@stepSize
 				when @canvas.keyboard.ARROW_RIGHT
 					event.preventDefault()
-					@avatar.move
-						x: @stepSize
 
 module.exports =
 	AvatarController: AvatarController

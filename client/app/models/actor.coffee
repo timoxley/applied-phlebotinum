@@ -1,4 +1,3 @@
-
 try
 	Signal = require("../../../lib/signals").Signal
 catch err
@@ -9,16 +8,16 @@ class Actor
 		@health ?= 100
 		@changed = new Signal()
 		@died = new Signal()
-		@max_speed = 10
+		@max_speed = 60
 	serialize: =>
 		out =
 			id: @id
 			x: @x
 			y: @y
 	move: ({x, y}) =>
-		if x?
+		if x? and 0 < @x + x < @world.width
 			@x += x
-		if y?
+		if y? and 0 < @y + y < @world.height
 			@y += y
 		@movementBus.dispatch @
 		@changed.dispatch 'start'

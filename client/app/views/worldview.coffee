@@ -7,7 +7,6 @@ class WorldView
 		@canvas = oCanvas.create
 			canvas: @el
 		@canvas.width = @world.width
-		
 		@canvas.height = @world.height
 		
 		@addAvatarView(new AvatarView(actor, @canvas)) for id, actor of @world.actors
