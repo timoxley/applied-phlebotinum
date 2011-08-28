@@ -43,4 +43,5 @@ footer a {
 }
 #content #world {
   border: 0px solid #eee;
+  background: url("/images/road-touched.jpg");
 }

@@ -8,5 +8,5 @@ module.exports =
 	appDir: appDir
 	settings:
 		world:
-			width: 695
-			height: 605
+			width: 900
+			height: 506
