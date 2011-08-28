@@ -12,8 +12,8 @@ class Client
 		@id = @socket.id
 
 		# Add player avatar to world
-		x = Math.floor(Math.random() * 60) * 10
-		y = Math.floor(Math.random() * 60) * 10
+		x = Math.floor(Math.random() * 200) + (common.settings.world.width / 2) - (200 / 2)
+		y = Math.floor(Math.random() * 150) + (common.settings.world.height / 2) - (150 / 2)
 		
 		@avatar = new Avatar {@id, x, y}
 		@world.addActor @avatar
@@ -42,7 +42,7 @@ class Client
 		zombie = new Zombie _.uniqueId(['zombie_']), x, y
 		zombie.changeTarget @avatar.id
 
-#		@world.addActor zombie
+		@world.addActor zombie
 
 	emitEvent: (event, arguments) =>
 		@socket.emit event, arguments
