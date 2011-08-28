@@ -1,9 +1,11 @@
+
 try
 	Signal = require("../../../lib/signals").Signal
 catch err
 	Signal = require('signals').Signal
 
 class Actor
+	type: null
 	constructor: ({@id, @x, @y, @health, @me}) ->
 		@health ?= 100
 		@changed = new Signal()
@@ -16,6 +18,8 @@ class Actor
 			id: @id
 			x: @x
 			y: @y
+			type: @type
+			
 	move: ({x, y}) =>
 		if x? and 0 < @x + x < @world.width
 			@x += x
