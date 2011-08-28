@@ -61,6 +61,7 @@ class Client
 		zombie.setTarget @avatar.id
 
 		@world.addActor zombie
+		@socket.broadcast.emit 'newActor', zombie.serialize()
 		@activeZombies += 1
 
 	emitEvent: (event, arguments) =>
