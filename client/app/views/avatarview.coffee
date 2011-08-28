@@ -54,5 +54,6 @@ class AvatarView
 			@displayElement.stop()		
 	destroy: =>
 		@canvas.removeChild @displayElement
+
 module.exports =
 	AvatarView: AvatarView
