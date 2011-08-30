@@ -21,7 +21,7 @@ class App
 			@world = new World(worldData)
 			@worldView = new WorldView(@world, '#world')
 		@socket.on 'updateActors', (actors) =>
-			for actor in actors when actor.id isnt @me.id
+			for id, actor of actors when actor.id isnt @me.id
 				if @world.getActor(actor.id)?
 					@world.getActor(actor.id).update actor
 				else

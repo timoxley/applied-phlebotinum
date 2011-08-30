@@ -23,6 +23,7 @@ class World
 		@actorsAdded.dispatch actor
 		actor.changed.add =>
 			@actorsChanged.dispatch actor
+		
 		actor.world = @
 		actor
 		
@@ -33,12 +34,11 @@ class World
 	getActor: (id) =>
 		@actors[id] || null
 
-	createActor: (actor) ->
+	createActor: (actor) =>
 		switch actor.type
 			when 'Avatar' then new Avatar(actor)
 			when 'Zombie' then new Zombie(actor)
 			else null
-
 	killActor: (id) ->
 		actor = @getActor id
 		@actorsRemoved.dispatch @actors[id]

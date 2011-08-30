@@ -12,15 +12,20 @@ class Actor
 	LEFT: 2
 	RIGHT: 3
 	type: null
+
 	constructor: ({@id, @x, @y, @health, @me}) ->
 		@health ?= 100
 		@changed = new Signal()
+		@dead = false
 		@movementBus = new Signal()
 		@died = new Signal()
 		@max_speed = 60
 		@min_movement = 3
 		@isMoving = false
 		@direction = Actor.DOWN
+
+	collidesWith: (actor) =>
+		(actor.x - 20 < @.x < actor.x + 20 and actor.y - 20 < @.y < actor.y)
 	serialize:  =>
 		out =
 			id: @id

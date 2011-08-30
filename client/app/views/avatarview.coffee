@@ -5,14 +5,17 @@ class AvatarView
 		
 		@actor.changed.add (motion) =>
 			@render()
-			
+		@actor.died.add =>
+			@render()	
 		@direction = @actor.DOWN
 		unless @sprite_file?
 			@sprite_file = 'male-01-walk'
 		@render()
 		
 	render: (motion) =>
-		
+		if @actor.dead
+			@displayElement.offset_y = 40
+			@displayElement.init()
 		if @actor.me and not @ellipse? and @displayElement
 			@ellipse = @canvas.display.ellipse
 				origin:
@@ -64,6 +67,7 @@ class AvatarView
 			@displayElement.stop()	
 	destroy: =>
 		@canvas.removeChild @displayElement
-
+		
+			
 module.exports =
 	AvatarView: AvatarView
